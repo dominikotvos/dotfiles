@@ -25,7 +25,7 @@ source $ZSH/oh-my-zsh.sh
 alias ls="exa --icons --group-directories-first"
 alias cat="bat"
 alias tree="exa --icons -T"
-alias py="python3"
+alias py="python3.10"
 alias icat="kitty +kitten icat"
 alias rmNM="find . -name "node_modules" -exec rm -rf '{}' +; find . -name "package-lock.json" -exec rm -rf '{}' +"
 
@@ -98,7 +98,7 @@ function rmk(){
 	shred -zun 10 -v $1
 }
 
-# Android config 
+# Android config
 # export ANDROID_HOME=$HOME/Android/Sdk
 # export PATH=$PATH:$ANDROID_HOME/emulator
 # export PATH=$PATH:$ANDROID_HOME/tools
@@ -119,3 +119,6 @@ alias svim="sudo nvim"
 export ANDROID_HOME=/home/sleuth/Android/sdk
 export ANDROID_SDK_ROOT=$ANDROID_HOME
 export PATH=$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools
+export PYTHONPATH=$PYTHONPATH:/usr/lib/python3.10/site-packages
+export JAVA_HOME=/usr/lib/jvm/java-21-temurin
+export PATH=$JAVA_HOME/bin:$PATH
