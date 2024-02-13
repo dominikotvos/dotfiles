@@ -32,7 +32,6 @@ return {
             },
             handlers = {
                 function(server_name) -- default handler (optional)
-
                     require("lspconfig")[server_name].setup {
                         capabilities = capabilities
                     }
@@ -51,6 +50,34 @@ return {
                         }
                     }
                 end,
+                ["pyright"] = function()
+                    local lspconfig = require("lspconfig")
+                    local extra_paths = vim.fn.trim(vim.fn.system("python3.10 -m site --user-site"))
+
+                    lspconfig.pyright.setup {
+                        capabilities = capabilities,
+                        filetypes = { "python" },
+                        settings = {
+                            python = {
+                                analysis = {
+                                    autoSearchPaths = true,
+                                    useLibraryCodeForTypes = true,
+                                    extraPaths = { extra_paths },
+                                },
+                            },
+                        },
+                    }
+                end,
+
+                ["jdtls"] = function()
+                    local lspconfig = require("lspconfig")
+                    lspconfig.jdtls.setup {
+                        capabilities = capabilities,
+                        cmd = { "jdtls" },
+                        filetypes = { "java" },
+                        root_dir = lspconfig.util.root_pattern("pom.xml", "gradle.build", ".git"),
+                    }
+                end,
             }
         })
 
@@ -65,7 +92,7 @@ return {
             mapping = cmp.mapping.preset.insert({
                 ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
                 ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-                ['<C-y>'] = cmp.mapping.confirm({ select = true }),
+                ['<CR>'] = cmp.mapping.confirm({ select = true }),
                 ["<C-Space>"] = cmp.mapping.complete(),
             }),
             sources = cmp.config.sources({
