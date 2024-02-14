@@ -122,3 +122,4 @@ export PATH=$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools
 export PYTHONPATH=$PYTHONPATH:/usr/lib/python3.10/site-packages
 export JAVA_HOME=/usr/lib/jvm/java-21-temurin
 export PATH=$JAVA_HOME/bin:$PATH
+eval "$(zoxide init --cmd cd zsh)"
