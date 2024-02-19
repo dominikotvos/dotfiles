@@ -38,7 +38,7 @@ floating_modifier $mod
 
 # start a terminal
 # bindsym $mod+Return exec i3-sensible-terminal
-bindsym $mod+Return exec kitty 
+bindsym $mod+Return exec kitty
 
 # kill focused window
 # bindsym $mod+space exec "/home/theprimeagen/dotfiles/awesome-streamerrc/ThePrimeagen/tmux2"
@@ -202,7 +202,7 @@ bar {
 exec --no-startup-id nm-applet
 
 # Monitors
-exec --no-startup-id xrandr --output eDP --mode 2560x1440 --rate 120 --pos 0x560
+exec --no-startup-id xrandr --output eDP --mode 2560x1440 --rate 120 --pos 0x0
 workspace 1 output eDP
 exec --no-startup-id xrandr --output HDMI-A-0 --mode 1920x1080 --rate 144 --pos 2560x560
 workspace 2 output HDMI-A-0
@@ -258,3 +258,6 @@ exec --no-startup-id xset -dpms
 
 #i3lock
 bindsym $mod+Ctrl+l exec --no-startup-id i3lock --nofork --color=24283b
+
+# Nier Automata Fix
+for_window [class="NieR:Automata"] exec --no-startup-id xdotool windowfocus 0x6800003 mousemove_relative --sync -- window 0x6800003 0 0

@@ -24,5 +24,16 @@ return {
             require "live_server.util".install()
         end,
         cmd = { "LiveServer", "LiveServerStart", "LiveServerStop" },
-    }
+    },
+    "shumphrey/fugitive-gitlab.vim",
+    "tpope/vim-rhubarb",
+    "tpope/vim-commentary",
+    "tpope/vim-surround",
+    "tpope/vim-repeat",
+    "tpope/vim-sleuth",
+    {
+        'windwp/nvim-autopairs',
+        event = "InsertEnter",
+        opts = {} -- this is equalent to setup({}) function
+    },
 }
