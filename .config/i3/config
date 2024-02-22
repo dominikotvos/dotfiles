@@ -201,6 +201,9 @@ bar {
 # ------------------------------------------
 exec --no-startup-id nm-applet
 
+# notification daemon
+exec --no-startup-id dunst
+
 # Monitors
 exec --no-startup-id xrandr --output eDP --mode 2560x1440 --rate 120 --pos 0x0
 workspace 1 output eDP
