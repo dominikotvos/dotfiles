@@ -123,3 +123,4 @@ export PYTHONPATH=$PYTHONPATH:/usr/lib/python3.10/site-packages
 export JAVA_HOME=/usr/lib/jvm/java-21-temurin
 export PATH=$JAVA_HOME/bin:$PATH
 eval "$(zoxide init --cmd cd zsh)"
+# export PATH="/home/sleuth/jetbrains_http/ijhttp:$PATH"

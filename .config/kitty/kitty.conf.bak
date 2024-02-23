@@ -16,9 +16,3 @@ background_blur 0
 
 cursor_shape block
 shell_integration no-cursor
-
-
-# BEGIN_KITTY_THEME
-# Rosé Pine Moon
-include current-theme.conf
-# END_KITTY_THEME
