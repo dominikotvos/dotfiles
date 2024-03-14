@@ -9,9 +9,13 @@ return {
                 python = { "isort", "black" },
                 -- Use a sub-list to run only the first available formatter
                 javascript = { { "prettierd", "prettier" } },
+
+                -- java = { "google-java-format", "--indent_size=4" },
+
+                sh = { "shfmt" },
             },
             format_on_save = {
-                timeout_ms = 500,
+                timeout_ms = 10,
                 lsp_fallback = true,
             },
         })

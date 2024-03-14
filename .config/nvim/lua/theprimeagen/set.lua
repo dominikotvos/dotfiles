@@ -30,4 +30,4 @@ vim.opt.updatetime = 50
 
 vim.opt.colorcolumn = "120"
 
-vim.api.nvim_command[[au VimEnter,WinEnter,BufWinEnter * set guicursor=n-v-c:block-Cursor/lCursor]]
+vim.api.nvim_command [[au VimEnter,WinEnter,BufWinEnter * set guicursor=n-v-c:block-Cursor/lCursor]]

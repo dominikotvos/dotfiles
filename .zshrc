@@ -124,3 +124,9 @@ export JAVA_HOME=/usr/lib/jvm/java-21-temurin
 export PATH=$JAVA_HOME/bin:$PATH
 eval "$(zoxide init --cmd cd zsh)"
 # export PATH="/home/sleuth/jetbrains_http/ijhttp:$PATH"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/sleuth/google-cloud-sdk/path.zsh.inc' ]; then . '/home/sleuth/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/sleuth/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/sleuth/google-cloud-sdk/completion.zsh.inc'; fi

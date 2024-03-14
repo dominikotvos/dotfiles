@@ -36,4 +36,8 @@ return {
         event = "InsertEnter",
         opts = {} -- this is equalent to setup({}) function
     },
+    {
+        "z0mbix/vim-shfmt",
+        ft = { "sh" },
+    },
 }

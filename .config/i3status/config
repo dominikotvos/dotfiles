@@ -10,30 +10,30 @@
 #         colors = true
 #         interval = 5
 # }
-# 
+#
 # order += "wireless wlan0"
 # order += "volume master"
 # order += "disk /"
 # order += "battery all"
 # order += "load"
 # order += "tztime local"
-# 
+#
 # battery all {
 #         format = "%status %percentage %remaining"
 # }
-# 
+#
 # tztime local {
 #         format = "%Y-%m-%d %H:%M:%S"
 # }
-# 
+#
 # load {
 #         format = "%1min"
 # }
-# 
+#
 # disk "/" {
 #         format = "%avail"
 # }
-# 
+#
 # volume master {
 #    format = " %volume"
 #    format_muted = " %volume"
@@ -41,7 +41,7 @@
 #    mixer = "Master"
 #    mixer_idx = 0
 # }
-# 
+#
 # wireless lan0 {
 #     format_up = "W: (%quality at %essid, %bitrate) %ip"
 #     format_down = "W: down"
@@ -56,6 +56,7 @@ order += "disk /"
 order += "wireless wlp2s0"
 order += "ethernet enp4s0f4u1"
 order += "battery 0"
+order += "exec /home/sleuth/dotfiles/.config/i3/scripts/swap_usage.sh"
 order += "memory"
 order += "tztime seoul"
 order += "tztime local"
