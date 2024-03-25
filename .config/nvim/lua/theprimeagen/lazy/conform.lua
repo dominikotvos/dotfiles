@@ -14,10 +14,10 @@ return {
 
                 sh = { "shfmt" },
             },
-            format_on_save = {
-                timeout_ms = 10,
-                lsp_fallback = true,
-            },
+            -- format_on_save = {
+            --     timeout_ms = 10,
+            --     lsp_fallback = true,
+            -- },
         })
         vim.api.nvim_create_autocmd("BufWritePre", {
             pattern = "*",

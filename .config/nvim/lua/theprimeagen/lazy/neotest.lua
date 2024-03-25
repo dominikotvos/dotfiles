@@ -7,6 +7,8 @@ return {
             "nvim-treesitter/nvim-treesitter",
             "marilari88/neotest-vitest",
             "nvim-neotest/neotest-plenary",
+            "nvim-neotest/nvim-nio",
+            "rcasia/neotest-java"
         },
         config = function()
             local neotest = require("neotest")
@@ -18,6 +20,9 @@ return {
                         -- in all my projects
                         min_init = "./scripts/tests/minimal.vim",
                     }),
+                    require("neotest-java")({
+                        ignore_wrapper = false,
+                    }),
                 }
             })
 
@@ -27,6 +32,26 @@ return {
 
             vim.keymap.set("n", "<leader>tf", function()
                 neotest.run.run(vim.fn.expand("%"))
+            end)
+
+            vim.keymap.set("n", "<leader>top", function ()
+                neotest.output_panel.toggle()
+            end)
+
+            vim.keymap.set("n", "<leader>ts", function ()
+                neotest.summary.toggle()
+            end)
+
+            vim.keymap.set("n", "<leader>tm", function ()
+                neotest.summary.marked()
+            end)
+
+            vim.keymap.set("n", "<leader>tr", function ()
+                neotest.summary.run_marked()
+            end)
+
+            vim.keymap.set("n", "<leader>tmc", function ()
+                neotest.summary.clear_marked()
             end)
         end,
     },
