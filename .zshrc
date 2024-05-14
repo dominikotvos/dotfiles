@@ -131,3 +131,9 @@ if [ -f '/home/sleuth/google-cloud-sdk/path.zsh.inc' ]; then . '/home/sleuth/goo
 # The next line enables shell command completion for gcloud.
 if [ -f '/home/sleuth/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/sleuth/google-cloud-sdk/completion.zsh.inc'; fi
 eval "$(gh copilot alias -- zsh)"
+
+# Setting the default terminal
+export TERMINAL=alacritty
+export PATH=$PATH:$HOME/go/bin
+
+alias neofetch="fastfetch"

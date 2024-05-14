@@ -21,7 +21,7 @@ return {
                         min_init = "./scripts/tests/minimal.vim",
                     }),
                     require("neotest-java")({
-                        ignore_wrapper = false,
+                        ignore_wrapper = true
                     }),
                 }
             })
@@ -34,26 +34,25 @@ return {
                 neotest.run.run(vim.fn.expand("%"))
             end)
 
-            vim.keymap.set("n", "<leader>top", function ()
+            vim.keymap.set("n", "<leader>top", function()
                 neotest.output_panel.toggle()
             end)
 
-            vim.keymap.set("n", "<leader>ts", function ()
+            vim.keymap.set("n", "<leader>ts", function()
                 neotest.summary.toggle()
             end)
 
-            vim.keymap.set("n", "<leader>tm", function ()
+            vim.keymap.set("n", "<leader>tm", function()
                 neotest.summary.marked()
             end)
 
-            vim.keymap.set("n", "<leader>tr", function ()
+            vim.keymap.set("n", "<leader>tr", function()
                 neotest.summary.run_marked()
             end)
 
-            vim.keymap.set("n", "<leader>tmc", function ()
+            vim.keymap.set("n", "<leader>tmc", function()
                 neotest.summary.clear_marked()
             end)
         end,
     },
 }
-

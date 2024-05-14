@@ -56,7 +56,7 @@ order += "disk /"
 order += "wireless wlp2s0"
 order += "ethernet enp4s0f4u1"
 order += "battery 0"
-order += "exec /home/sleuth/dotfiles/.config/i3/scripts/swap_usage.sh"
+#order += "exec /home/sleuth/dotfiles/.config/i3/scripts/swap_usage.sh"
 order += "memory"
 order += "tztime seoul"
 order += "tztime local"
@@ -84,6 +84,7 @@ ethernet enp4s0f4u1 {
 }
 
 battery 0 {
+    last_full_capacity = true
     format = "%status %percentage %remaining %emptytime"
         format_down = "No battery"
         status_chr = "⚡ CHR"
