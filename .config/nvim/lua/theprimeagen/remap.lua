@@ -55,3 +55,6 @@ vim.keymap.set("n", "<leader><leader>", function()
     vim.cmd("so")
 end)
 
+-- LSP Mappings
+vim.keymap.set("n", "<leader>.", vim.lsp.buf.hover)
+vim.keymap.set("n", "<leader>,", vim.diagnostic.open_float)

@@ -1,10 +1,13 @@
 return {
     "nvimtools/none-ls.nvim",
-    ft = { "python" },
+    dependencies = {
+        "nvimtools/none-ls-extras.nvim",
+    },
     opts = function()
         local null_ls = require("null-ls")
+        local formatting = null_ls.builtins.formatting
         local venv_path =
-        'import sys; sys.path.append("/usr/lib/python3.11/site-packages"); import pylint_venv; pylint_venv.inithook(force_venv_activation=True, quiet=True)'
+        'import sys; sys.path.append("/usr/lib/python3.12/site-packages"); import pylint_venv; pylint_venv.inithook(force_venv_activation=True, quiet=True)'
         null_ls.setup({
             sources = {
                 null_ls.builtins.diagnostics.pylint.with({
@@ -13,8 +16,15 @@ return {
                         diagnostic.code = diagnostic.message_id
                     end,
                 }),
-                null_ls.builtins.formatting.isort,
-                null_ls.builtins.formatting.black,
+                formatting.isort,
+                formatting.black,
+                require("none-ls.diagnostics.eslint"),
+                require("none-ls.code_actions.eslint"),
+                -- set google_java_format to 4 spaces
+                formatting.google_java_format.with({
+                    extra_args = { "--aosp" },
+                }),
+                formatting.gofmt
             },
         })
     end,
