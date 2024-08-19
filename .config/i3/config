@@ -37,7 +37,7 @@ for_window [class="^.*"] client.focused          #77dd77 #285577 #ffffff #2e9ef4
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec alacritty
+bindsym $mod+Return exec wezterm
 
 # kill focused window
 # bindsym $mod+space exec "/home/theprimeagen/dotfiles/awesome-streamerrc/ThePrimeagen/tmux2"
@@ -208,12 +208,12 @@ exec --no-startup-id nm-applet
 exec --no-startup-id dunst
 
 # Monitors
-exec --no-startup-id xrandr --output eDP --mode 2560x1440 --rate 120 --pos 0x0
-workspace 1 output eDP
 exec --no-startup-id xrandr --output HDMI-A-0 --mode 1920x1080 --rate 144 --pos 2560x560 --primary
 workspace 2 output HDMI-A-0
 exec --no-startup-id xrandr --output DP-1-0 --mode 2560x1080 --rate 60 --pos 4480x0 --rotate right
 workspace 3 output DP-1-0
+exec --no-startup-id xrandr --output eDP --mode 2560x1440 --rate 120 --pos 0x560
+workspace 1 output eDP
 
 #Wallpaper
 exec --no-startup-id feh --bg-fill /home/sleuth/.config/i3/wallpapers/wolf-rex.jpg
@@ -276,3 +276,6 @@ bindsym $mod+Shift+d exec --no-startup-id ~/dotfiles/.config/i3/scripts/toggle_l
 bindsym $mod+g exec --no-startup-id ~/dotfiles/.config/i3/scripts/disable_gaming_keybinds.sh
 # re-enable keybinds
 bindsym $mod+Shift+g exec --no-startup-id ~/dotfiles/.config/i3/scripts/enable_gaming_keybinds.sh
+
+# Window scaling for 2k laptop screen
+# exec --no-startup-id xrandr --output eDP --scale 0.7

@@ -12,29 +12,39 @@
 export ZSH="$HOME/.oh-my-zsh"
 
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-# .oh-my-zsh/themes/
 ZSH_THEME="robbyrussell"
 # ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # User configuration
 source $ZSH/oh-my-zsh.sh
 
+export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
+--color=fg:#c0caf5,bg:#1a1b26,hl:#ff9e64 \
+--color=fg+:#c0caf5,bg+:#292e42,hl+:#ff9e64 \
+--color=info:#7aa2f7,prompt:#7dcfff,pointer:#7dcfff \
+--color=marker:#9ece6a,spinner:#9ece6a,header:#9ece6a"
 
 # alias config
-
 alias ls="exa --icons --group-directories-first"
 alias cat="bat"
 alias tree="exa --icons -T"
 alias py="python3.10"
 alias icat="kitty +kitten icat"
-alias rmNM="find . -name "node_modules" -exec rm -rf '{}' +; find . -name "package-lock.json" -exec rm -rf '{}' +"
-
-# fzf
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+alias rmNM="find . -name 'node_modules' -exec rm -rf '{}' +; find . -name 'package-lock.json' -exec rm -rf '{}' +"
 
 # Plugins
+plugins=(fzf-tab git golang docker docker-compose gradle archlinux rust npm)
 
-plugins=(git)
+# # fzf
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# # fzf-tab settings
+# zstyle ':completion:*:git-checkout:*' sort false
+# zstyle ':completion:*:descriptions' format '[%d]'
+# zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*' menu no
+# zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+# zstyle ':fzf-tab:*' switch-group '<' '>'
 
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -45,7 +55,6 @@ function mkt(){
 	mkdir {nmap,content,exploits,scripts}
 }
 
-# Extract nmap information
 function extractPorts(){
 	ports="$(cat $1 | grep -oP '\d{1,5}/open' | awk '{print $1}' FS='/' | xargs | tr ' ' ',')"
 	ip_address="$(cat $1 | grep -oP '\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}' | sort -u | head -n 1)"
@@ -57,7 +66,6 @@ function extractPorts(){
 	cat extractPorts.tmp; rm extractPorts.tmp
 }
 
-# Set 'man' colors
 function man() {
     env \
     LESS_TERMCAP_mb=$'\e[01;31m' \
@@ -70,9 +78,7 @@ function man() {
     man "$@"
 }
 
-# fzf improvement
 function fzf-lovely(){
-
 	if [ "$1" = "h" ]; then
 		fzf -m --reverse --preview-window down:20 --preview '[[ $(file --mime {}) =~ binary ]] &&
  	                echo {} is a binary file ||
@@ -81,7 +87,6 @@ function fzf-lovely(){
 	                  coderay {} ||
 	                  rougify {} ||
 	                  cat {}) 2> /dev/null | head -500'
-
 	else
 	        fzf -m --preview '[[ $(file --mime {}) =~ binary ]] &&
 	                         echo {} is a binary file ||
@@ -132,8 +137,16 @@ if [ -f '/home/sleuth/google-cloud-sdk/path.zsh.inc' ]; then . '/home/sleuth/goo
 if [ -f '/home/sleuth/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/sleuth/google-cloud-sdk/completion.zsh.inc'; fi
 eval "$(gh copilot alias -- zsh)"
 
-# Setting the default terminal
-export TERMINAL=alacritty
 export PATH=$PATH:$HOME/go/bin
 
 alias neofetch="fastfetch"
+
+eval "$(fzf --zsh)"
+function yy() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}

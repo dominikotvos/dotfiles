@@ -42,13 +42,16 @@ return {
 		"z0mbix/vim-shfmt",
 		ft = { "sh" },
 	},
-	-- {
-	-- 	"Exafunction/codeium.vim",
-	-- 	event = "BufEnter",
-	-- 	config = function()
-	-- 		vim.keymap.set("i", "<C-]>", function()
-	-- 			return vim.fn["codeium#CycleCompletions"](1)
-	-- 		end, { expr = true, silent = true })
-	-- 	end,
-	-- },
+	{
+		"andweeb/presence.nvim"
+	},
+	{
+		"folke/todo-comments.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
+		opts = {
+			-- your configuration comes here
+			-- or leave it empty to use the default settings
+			-- refer to the configuration section below
+		}
+	},
 }
