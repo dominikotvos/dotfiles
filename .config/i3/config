@@ -279,3 +279,4 @@ bindsym $mod+Shift+g exec --no-startup-id ~/dotfiles/.config/i3/scripts/enable_g
 
 # Window scaling for 2k laptop screen
 # exec --no-startup-id xrandr --output eDP --scale 0.7
+workspace_auto_back_and_forth yes

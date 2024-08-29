@@ -11,7 +11,7 @@ include themes/Rose-Pine.conf
 #confirm_os_window_close 0
 enable_audio_bell no
 
-background_opacity 0.95
+# background_opacity 0.95
 background_blur 0
 
 cursor_shape block
@@ -19,6 +19,6 @@ shell_integration no-cursor
 
 
 # BEGIN_KITTY_THEME
-# Rosé Pine
+# Tokyo-Night
 include current-theme.conf
 # END_KITTY_THEME
