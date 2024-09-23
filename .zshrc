@@ -15,39 +15,36 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
 # ZSH_THEME="powerlevel10k/powerlevel10k"
 
-# User configuration
-source $ZSH/oh-my-zsh.sh
-
 export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
 --color=fg:#c0caf5,bg:#1a1b26,hl:#ff9e64 \
 --color=fg+:#c0caf5,bg+:#292e42,hl+:#ff9e64 \
 --color=info:#7aa2f7,prompt:#7dcfff,pointer:#7dcfff \
 --color=marker:#9ece6a,spinner:#9ece6a,header:#9ece6a"
 
-# alias config
-alias ls="exa --icons --group-directories-first"
-alias cat="bat"
-alias tree="exa --icons -T"
-alias py="python3.10"
-alias icat="kitty +kitten icat"
-alias rmNM="find . -name 'node_modules' -exec rm -rf '{}' +; find . -name 'package-lock.json' -exec rm -rf '{}' +"
 
 # Plugins
-plugins=(fzf-tab git golang docker docker-compose gradle archlinux rust npm)
+plugins=(fzf-tab git golang docker docker-compose
+	gradle archlinux rust npm
+	zsh-syntax-highlighting zsh-autosuggestions)
 
 # # fzf
 # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# # fzf-tab settings
-# zstyle ':completion:*:git-checkout:*' sort false
-# zstyle ':completion:*:descriptions' format '[%d]'
-# zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# fzf-tab settings
+# disable sort when completing `git checkout`
+zstyle ':completion:*:git-checkout:*' sort false
+# set descriptions format to enable group support
+# NOTE: don't use escape sequences here, fzf-tab will ignore them
+zstyle ':completion:*:descriptions' format '[%d]'
+# set list-colors to enable filename colorizing
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+# force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
 zstyle ':completion:*' menu no
-# zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
-# zstyle ':fzf-tab:*' switch-group '<' '>'
+# preview directory's content with eza when completing cd
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
+# switch group using `<` and `>`
+zstyle ':fzf-tab:*' switch-group '<' '>'
 
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $ZSH/plugins/sudo/sudo.plugin.zsh
 
 # Functions
@@ -110,9 +107,9 @@ function rmk(){
 # export PATH=$PATH:$ANDROID_HOME/tools/bin
 # export PATH=$PATH:$ANDROID_HOME/platform-tools
 alias vim=nvim
-export GTK_IM_MODULE=kime
-export QT_IM_MODULE=kime
-export XMODIFIERS=@im=kime
+export GTK_IM_MODULE=ibus
+export XMODIFIERS=@im=ibus
+export QT_IM_MODULE=ibus
 # Postgres user
 alias pg="sudo -i -u postgres"
 alias svim="sudo nvim"
@@ -150,3 +147,18 @@ function yy() {
 	fi
 	rm -f -- "$tmp"
 }
+# User configuration
+source $ZSH/oh-my-zsh.sh
+# alias config
+alias ls="exa --icons --group-directories-first"
+alias cat="bat"
+alias tree="exa --icons -T"
+alias py="python3.10"
+alias icat="kitty +kitten icat"
+alias rmNM="find . -name 'node_modules' -exec rm -rf '{}' +; find . -name 'package-lock.json' -exec rm -rf '{}' +"
+
+PATH="/home/sleuth/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/home/sleuth/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/home/sleuth/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/home/sleuth/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/home/sleuth/perl5"; export PERL_MM_OPT;
