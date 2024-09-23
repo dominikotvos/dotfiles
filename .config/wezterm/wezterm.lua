@@ -30,5 +30,7 @@ config.window_padding = {
     bottom = 0,
 }
 
+config.term = "xterm-256color"
+
 -- and finally, return the configuration to wezterm
 return config
