@@ -21,9 +21,9 @@ return {
                 require("none-ls.diagnostics.eslint"),
                 require("none-ls.code_actions.eslint"),
                 -- set google_java_format to 4 spaces
-                formatting.google_java_format.with({
-                    extra_args = { "--aosp" },
-                }),
+                -- formatting.google_java_format.with({
+                --     extra_args = { "--aosp" },
+                -- }),
                 formatting.gofmt
             },
         })

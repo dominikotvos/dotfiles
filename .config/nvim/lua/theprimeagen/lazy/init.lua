@@ -5,9 +5,7 @@ return {
 		name = "plenary",
 	},
 
-	"github/copilot.vim",
 	"eandrju/cellular-automaton.nvim",
-	"gpanders/editorconfig.nvim",
 
 	{
 		"iamcco/markdown-preview.nvim",
@@ -18,8 +16,6 @@ return {
 		end,
 	},
 
-	"krisajenkins/vim-java-sql",
-
 	{
 		"aurum77/live-server.nvim",
 		run = function()
@@ -27,6 +23,7 @@ return {
 		end,
 		cmd = { "LiveServer", "LiveServerStart", "LiveServerStop" },
 	},
+
 	"shumphrey/fugitive-gitlab.vim",
 	"tpope/vim-rhubarb",
 	"tpope/vim-commentary",

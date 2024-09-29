@@ -30,17 +30,17 @@ return {
 				"lua_ls",
 				"rust_analyzer",
 				"ts_ls",
-				"jdtls",
 				"pyright",
 				"gopls",
 			},
 			handlers = {
-				function(server_name) -- default handler (optional)
-					require("lspconfig")[server_name].setup({
-						capabilities = capabilities,
-					})
+				function(server_name)
+					if server_name ~= "jdtls" then
+						require("lspconfig")[server_name].setup({
+							capabilities = capabilities,
+						})
+					end
 				end,
-
 				["lua_ls"] = function()
 					local lspconfig = require("lspconfig")
 					lspconfig.lua_ls.setup({
@@ -70,16 +70,6 @@ return {
 								},
 							},
 						},
-					})
-				end,
-
-				["jdtls"] = function()
-					local lspconfig = require("lspconfig")
-					lspconfig.jdtls.setup({
-						capabilities = capabilities,
-						cmd = { "jdtls" },
-						filetypes = { "java" },
-						root_dir = lspconfig.util.root_pattern("pom.xml", "gradle.build", ".git"),
 					})
 				end,
 			},
