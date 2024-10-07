@@ -25,6 +25,11 @@ return {
             builtin.grep_string({ search = vim.fn.input("Grep > ") })
         end)
         vim.keymap.set('n', '<leader>vh', builtin.help_tags, {})
+
+        -- LSP-based implementation search for Java
+        vim.keymap.set('n', '<leader>li', function()
+            builtin.lsp_implementations()
+        end, { noremap = true, silent = true, desc = "List Implementations" })
     end
 }
 
