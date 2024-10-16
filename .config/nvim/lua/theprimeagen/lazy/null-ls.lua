@@ -26,9 +26,9 @@ return {
                     filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "json", "yaml", "html", "css", "scss", "markdown", "tsx" }, -- Ensure TSX is included
                 }),
                 -- Set google_java_format to 4 spaces
-                formatting.google_java_format.with({
-                    extra_args = { "--aosp" },
-                }),
+                -- formatting.google_java_format.with({
+                --     extra_args = { "--aosp" },
+                -- }),
                 formatting.gofmt
             },
         })
