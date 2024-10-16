@@ -29,7 +29,6 @@ return {
 	"tpope/vim-commentary",
 	"tpope/vim-surround",
 	"tpope/vim-repeat",
-	"tpope/vim-sleuth",
 	{
 		"windwp/nvim-autopairs",
 		event = "InsertEnter",
