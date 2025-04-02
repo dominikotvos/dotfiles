@@ -24,11 +24,11 @@ export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
 
 # Plugins
 plugins=(fzf-tab git golang docker docker-compose
-	gradle archlinux rust npm
-	zsh-syntax-highlighting zsh-autosuggestions)
+	gradle archlinux rust npm azure
+    zsh-syntax-highlighting zsh-autosuggestions zsh-fzf-history-search)
 
 # # fzf
-# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # fzf-tab settings
 # disable sort when completing `git checkout`
@@ -46,6 +46,12 @@ zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza -1 --color=always $realpath'
 zstyle ':fzf-tab:*' switch-group '<' '>'
 
 source $ZSH/plugins/sudo/sudo.plugin.zsh
+
+# Azure CLI auto-completion setup
+autoload -U +X bashcompinit && bashcompinit
+if [ -f /opt/azure-cli/bin/az.completion.sh ]; then
+  source /opt/azure-cli/bin/az.completion.sh
+fi
 
 # Functions
 function mkt(){
@@ -106,6 +112,8 @@ function rmk(){
 # export PATH=$PATH:$ANDROID_HOME/tools
 # export PATH=$PATH:$ANDROID_HOME/tools/bin
 # export PATH=$PATH:$ANDROID_HOME/platform-tools
+export ANDROID_HOME=/home/sleuth/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
 alias vim=nvim
 export GTK_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
@@ -114,15 +122,12 @@ export QT_IM_MODULE=ibus
 alias pg="sudo -i -u postgres"
 alias svim="sudo nvim"
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-#export ANDROID_HOME=/opt/android-sdk
-#export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
 export ANDROID_HOME=/home/sleuth/Android/sdk
 export ANDROID_SDK_ROOT=$ANDROID_HOME
 export PATH=$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools
-export PYTHONPATH=$PYTHONPATH:/usr/lib/python3.10/site-packages
-export JAVA_HOME=/usr/lib/jvm/java-21-temurin
+export PYTHONPATH=$PYTHONPATH:/usr/lib/python3.12/site-packages
+# export JAVA_HOME=/usr/lib/jvm/java-21-temurin
+export JAVA_HOME=/usr/lib/jvm/java-17-temurin/
 export PATH=$JAVA_HOME/bin:$PATH
 eval "$(zoxide init --cmd cd zsh)"
 # export PATH="/home/sleuth/jetbrains_http/ijhttp:$PATH"
@@ -157,8 +162,7 @@ alias py="python3.10"
 alias icat="kitty +kitten icat"
 alias rmNM="find . -name 'node_modules' -exec rm -rf '{}' +; find . -name 'package-lock.json' -exec rm -rf '{}' +"
 
-PATH="/home/sleuth/perl5/bin${PATH:+:${PATH}}"; export PATH;
-PERL5LIB="/home/sleuth/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/home/sleuth/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/home/sleuth/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/home/sleuth/perl5"; export PERL_MM_OPT;
+autoload -Uz compinit && compinit
+
+# Add .NET Core SDK tools
+export PATH="$PATH:/home/sleuth/.dotnet/tools"

@@ -1,6 +1,6 @@
 return {
     "laytan/cloak.nvim",
-    config = function() 
+    config = function()
         require("cloak").setup({
             enabled = true,
             cloak_character = "*",
@@ -11,7 +11,6 @@ return {
                     -- Match any file starting with ".env".
                     -- This can be a table to match multiple file patterns.
                     file_pattern = {
-                        ".env*",
                         "wrangler.toml",
                         ".dev.vars",
                     },

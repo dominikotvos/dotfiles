@@ -34,7 +34,8 @@ return {
             on_attach = on_attach, -- Attach keybindings
             view = {
                 side = 'right',
-                width = 55,
+                width = 33,
+                -- 55 for java
             },
             renderer = {
                 indent_markers = {

@@ -20,7 +20,13 @@ font pango:monospace 15px
 # Thanks Childz
 for_window [class="^.*"] border pixel 2
                           # class                 border  backgr. text    indicator child_border
-for_window [class="^.*"] client.focused          #77dd77 #285577 #ffffff #2e9ef4   #285577
+# for_window [class="^.*"] client.focused          #77dd77 #285577 #ffffff #2e9ef4   #285577
+# for_window [class="^.*"] client.focused            #7aa2f7 #1a1b26 #a9b1d6 #7aa2f7   #1a1b26
+client.focused             #7AA2F7 #7AA2F7 #7AA2F7 #7AA2F7   #a9b1d6
+# client.focused_inactive  #16161D #1F1F28 #C8C093 #54546D   #54546D
+# client.unfocused         #16161D #1F1F28 #C8C093 #16161D   #16161D
+# client.urgent            #C34043 #1F1F28 #DCD7BA #C34043   #54546D
+
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
@@ -37,7 +43,7 @@ for_window [class="^.*"] client.focused          #77dd77 #285577 #ffffff #2e9ef4
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec wezterm
+bindsym $mod+Return exec kitty
 
 # kill focused window
 # bindsym $mod+space exec "/home/theprimeagen/dotfiles/awesome-streamerrc/ThePrimeagen/tmux2"
@@ -193,10 +199,11 @@ bindsym $mod+r mode "resize"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-bar {
-        status_command i3status
-        tray_output primary
-}
+# bar {
+#         status_command i3status
+#         tray_output primary
+#         font pango:Hack Nerd Font 12
+# }
 
 
 # ------------------------------------------
@@ -208,24 +215,30 @@ exec --no-startup-id nm-applet
 exec --no-startup-id dunst
 
 # Monitors
-exec --no-startup-id xrandr --output HDMI-A-0 --mode 1920x1080 --rate 144 --pos 2560x560 --primary
+exec --no-startup-id xrandr --setprovideroutputsource modesetting NVIDIA-0
+
+exec --no-startup-id xrandr --output eDP-1 --mode 2560x1440 --rate 120
+exec --no-startup-id xrandr --output HDMI-1 --mode 1920x1080 --rate 144 --right-of eDP-1 --primary
+exec --no-startup-id xrandr --output DP-1-0 --mode 2560x1080 --rate 60 --right-of HDMI-1
+# exec --no-startup-id xrandr --output DP-1-0 --mode 2560x1080 --rate 60 --pos 4480x0 --rotate right
+workspace 1 output eDP-1
 workspace 2 output HDMI-A-0
-exec --no-startup-id xrandr --output DP-1-0 --mode 2560x1080 --rate 60 --pos 4480x0 --rotate right
 workspace 3 output DP-1-0
-exec --no-startup-id xrandr --output eDP --mode 2560x1440 --rate 120 --pos 0x560
-workspace 1 output eDP
 
 #Wallpaper
-exec --no-startup-id feh --bg-fill /home/sleuth/.config/i3/wallpapers/wolf-rex.jpg
+exec --no-startup-id feh --bg-fill ~/Pictures/ltt.jpg
 
 #Picom
 exec --no-startup-id picom -b
 
+# Polybar
+exec --no-startup-id ~/.config/polybar/launch_polybar.sh
 
 # bindsym $mod+Shift+s exec --no-startup-id ~/dotfiles/bin/monitor
 # bindsym $mod+Shift+n exec --no-startup-id ~/dotfiles/bin/resolution
 
 
+bindsym XF86AudioMicMute exec pamixer --default-source -t # Mic mute key
 bindsym XF86AudioMute exec pamixer -t # Speaker Mute FN+F1
 bindsym XF86AudioLowerVolume exec pamixer -d 5 # Volume lower key
 bindsym XF86AudioRaiseVolume exec pamixer -i 5 # Volume Higher key
@@ -280,3 +293,19 @@ bindsym $mod+Shift+g exec --no-startup-id ~/dotfiles/.config/i3/scripts/enable_g
 # Window scaling for 2k laptop screen
 # exec --no-startup-id xrandr --output eDP --scale 0.7
 workspace_auto_back_and_forth yes
+
+# This is for the dual amd and nvidia gpu setup
+exec --no-startup-id optimus-manager-qt
+
+# Auto start vesktop on workspace 3
+# Define Workspace 3
+# set $ws3 "3: Vesktop"
+
+# # Start vesktop and move it to workspace 3
+# exec --no-startup-id vesktop
+
+# # Assign vesktop to workspace 3
+# assign [class="Vesktop"] $ws3
+
+# Autostart ibus
+exec --no-startup-id ibus-daemon -rxRd
