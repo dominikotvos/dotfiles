@@ -2,6 +2,7 @@ return {
     "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
     opts = {},
+    ft = { "python" },
     config = function()
         local highlight = {
             "CursorColumn",
