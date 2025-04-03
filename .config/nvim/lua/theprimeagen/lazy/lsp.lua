@@ -61,7 +61,7 @@ return {
                 end,
                 ["pyright"] = function()
                     local lspconfig = require("lspconfig")
-                    local extra_paths = vim.fn.trim(vim.fn.system("python3.10 -m site --user-site"))
+                    local extra_paths = vim.fn.trim(vim.fn.system("python3.12 -m site --user-site"))
 
                     lspconfig.pyright.setup({
                         capabilities = capabilities,
