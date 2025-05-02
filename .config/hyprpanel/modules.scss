@@ -1,0 +1,38 @@
+/* ####################################
+ * # Custom UTC+9 Clock Module Styling #
+ * #################################### */
+
+@include styleModule(
+    'cmodule-clock_utc9',
+    (
+        'text-color': #9d7cd8,
+        'icon-color': #9d7cd8,
+        'icon-background': #9d7cd8,
+        'border-enabled': true,
+        'border-color': #9d7cd8,
+        'inner-spacing': 0.5em,
+    )
+);
+
+.cmodule-clock_utc9 {
+    background-color: #272a3d;
+}
+
+/* ########################################
+ * # Custom Keyboard Layout Module # (needed this because of using fcitx5)
+ * ######################################## */
+
+@include styleModule(
+    'cmodule-kb_layout',
+    (
+        'text-color': #7dcfff,
+        'icon-color': #7dcfff,
+        'icon-background': #7dcfff,
+        'border-enabled': false,
+        'border-color': #7dcfff
+    )
+);
+
+.cmodule-kb_layout {
+    background-color: #272a3d;
+}

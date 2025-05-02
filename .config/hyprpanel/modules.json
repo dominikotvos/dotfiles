@@ -1,0 +1,15 @@
+{
+    "custom/clock_utc9": {
+        "icon": "󰸗",
+        "label": "{}",
+        "tooltip": "Current Time in Korea",
+        "execute": "TZ='Asia/Seoul' date +'%H:%M'",
+        "interval": 1000
+    },
+    "custom/kb_layout": {
+        "icon": "",
+        "label": "{}",
+        "execute": "~/.config/hyprpanel/scripts/get_kb_layout.sh",
+        "interval": 500
+    }
+}

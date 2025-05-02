@@ -122,7 +122,7 @@ export QT_IM_MODULE=ibus
 alias pg="sudo -i -u postgres"
 alias svim="sudo nvim"
 
-export ANDROID_HOME=/home/sleuth/Android/sdk
+export ANDROID_HOME=/home/sleuth/Android/Sdk
 export ANDROID_SDK_ROOT=$ANDROID_HOME
 export PATH=$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools
 export PYTHONPATH=$PYTHONPATH:/usr/lib/python3.12/site-packages

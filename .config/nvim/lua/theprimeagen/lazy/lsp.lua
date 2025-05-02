@@ -35,8 +35,8 @@ return {
                 "lua_ls",
                 "rust_analyzer",
                 "ts_ls",
-                "pyright",
                 "gopls",
+                "pylsp",
             },
             handlers = {
                 function(server_name)
@@ -59,10 +59,23 @@ return {
                         },
                     })
                 end,
-                ["pyright"] = function()
+                ["pylsp"] = function()
                     local lspconfig = require("lspconfig")
-                    lspconfig.pyright.setup({
+                    lspconfig.pylsp.setup({
                         capabilities = capabilities,
+                        settings = {
+                            pylsp = {
+                                plugins = {
+                                    pycodestyle = { enabled = false },
+                                    flake8 = { enabled = false },
+                                    pyflakes = { enabled = false },
+                                    pylint = { enabled = false },
+                                    autopep8 = { enabled = false },
+                                    mccabe = { enabled = false },
+                                    yapf = { enabled = false },
+                                },
+                            },
+                        },
                     })
                 end,
             },
