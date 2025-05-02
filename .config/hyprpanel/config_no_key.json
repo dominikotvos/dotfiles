@@ -503,6 +503,12 @@
   "bar.customModules.kbLayout.label": true,
   "theme.bar.buttons.modules.kbLayout.enableBorder": false,
   "menus.clock.weather.location": "",
-  "menus.clock.weather.key": ""
+  "menus.clock.weather.key": "",
+  "menus.dashboard.directories.left.directory1.command": "bash -c \"dolphin $HOME/Downloads/\"",
+  "menus.dashboard.directories.left.directory2.command": "bash -c \"dolphin $HOME/Videos/\"",
+  "menus.dashboard.directories.left.directory3.command": "bash -c \"dolphin $HOME/personal/\"",
+  "menus.dashboard.directories.right.directory1.command": "bash -c \"dolphin $HOME/Documents/\"",
+  "menus.dashboard.directories.right.directory2.command": "bash -c \"dolphin $HOME/Pictures/\"",
+  "menus.dashboard.directories.right.directory3.command": "bash -c \"dolphin $HOME/\""
 }
 
