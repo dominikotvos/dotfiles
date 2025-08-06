@@ -1,9 +1,6 @@
-# import = ["~/.config/alacritty/rose-pine.toml"]
-# import = ["~/.config/alacritty/kanagawa_wave.toml"]
-import = ["~/.config/alacritty/tokyonight_night.toml"]
 
 [font]
-size = 10
+size = 14
 
 [font.normal]
 family = "Hack Nerd Font"
@@ -11,19 +8,26 @@ style = "Regular"
 
 [font.bold]
 family = "Hack Nerd Font"
-style = "Regular"
+style = "Bold"
 
 [font.italic]
 family = "Hack Nerd Font"
-style = "Regular"
+style = "Italic"
 
 [window]
 opacity = 0.95
 
 [env]
 term = "xterm-256color"
-WINIT_X11_SCALE_FACTOR = "1.3"
+# WINIT_X11_SCALE_FACTOR = "1.3"
 
-[shell]
-program = "tmux"
-args = ["-2", "-u"]
+[general]
+# import = ["~/.config/alacritty/rose-pine.toml"]
+# import = ["~/.config/alacritty/kanagawa_wave.toml"]
+import = ["~/.config/alacritty/tokyonight_night.toml"]
+
+[terminal]
+
+# [terminal.shell]
+# program = "tmux"
+# args = ["-2", "-u"]

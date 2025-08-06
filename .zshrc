@@ -24,8 +24,7 @@ export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
 
 # Plugins
 plugins=(fzf-tab git golang docker docker-compose
-	gradle archlinux rust npm azure
-    zsh-syntax-highlighting zsh-autosuggestions zsh-fzf-history-search)
+	gradle archlinux rust npm zsh-syntax-highlighting zsh-autosuggestions zsh-fzf-history-search)
 
 # # fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -47,16 +46,7 @@ zstyle ':fzf-tab:*' switch-group '<' '>'
 
 source $ZSH/plugins/sudo/sudo.plugin.zsh
 
-# Azure CLI auto-completion setup
-autoload -U +X bashcompinit && bashcompinit
-if [ -f /opt/azure-cli/bin/az.completion.sh ]; then
-  source /opt/azure-cli/bin/az.completion.sh
-fi
-
 # Functions
-function mkt(){
-	mkdir {nmap,content,exploits,scripts}
-}
 
 function extractPorts(){
 	ports="$(cat $1 | grep -oP '\d{1,5}/open' | awk '{print $1}' FS='/' | xargs | tr ' ' ',')"
@@ -107,13 +97,9 @@ function rmk(){
 }
 
 # Android config
-# export ANDROID_HOME=$HOME/Android/Sdk
-# export PATH=$PATH:$ANDROID_HOME/emulator
-# export PATH=$PATH:$ANDROID_HOME/tools
-# export PATH=$PATH:$ANDROID_HOME/tools/bin
-# export PATH=$PATH:$ANDROID_HOME/platform-tools
-export ANDROID_HOME=/home/sleuth/Android/Sdk
-export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
 alias vim=nvim
 export GTK_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
@@ -161,8 +147,6 @@ alias tree="exa --icons -T"
 alias py="python3.10"
 alias icat="kitty +kitten icat"
 alias rmNM="find . -name 'node_modules' -exec rm -rf '{}' +; find . -name 'package-lock.json' -exec rm -rf '{}' +"
-
-autoload -Uz compinit && compinit
 
 # Add .NET Core SDK tools
 export PATH="$PATH:/home/sleuth/.dotnet/tools"

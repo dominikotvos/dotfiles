@@ -16,6 +16,9 @@ return {
 				lua = { "stylua" },
 				javascript = { "prettier" },
 				typescript = { "prettier" },
+                javascriptreact = { "prettier" },
+                typescriptreact = { "prettier" },
+                json = { "prettier" },
 			},
 
 			format_on_save = false,
@@ -25,7 +28,7 @@ return {
 		vim.keymap.set("n", "<leader>f", function()
 			conform.format({
 				async = true,
-				lsp_fallback = false,
+				lsp_fallback = true,
 			})
 		end, { desc = "Format file" })
 	end,

@@ -10,10 +10,11 @@ return {
 	{
 		"iamcco/markdown-preview.nvim",
 		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
-		ft = { "markdown" },
-		build = function()
-			vim.fn["mkdp#util#install"]()
+		build = "cd app && yarn install",
+		init = function()
+			vim.g.mkdp_filetypes = { "markdown" }
 		end,
+		ft = { "markdown" },
 	},
 
 	{
@@ -39,7 +40,7 @@ return {
 		ft = { "sh" },
 	},
 	{
-		"andweeb/presence.nvim"
+		"andweeb/presence.nvim",
 	},
 	{
 		"folke/todo-comments.nvim",
@@ -48,6 +49,13 @@ return {
 			-- your configuration comes here
 			-- or leave it empty to use the default settings
 			-- refer to the configuration section below
-		}
+		},
+	},
+	{
+		"adelarsq/image_preview.nvim",
+		event = "VeryLazy",
+		config = function()
+			require("image_preview").setup()
+		end,
 	},
 }
