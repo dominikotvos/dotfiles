@@ -6,13 +6,8 @@ return {
 
         conform.setup({
             formatters_by_ft = {
-                -- Python
                 python = { "black", "isort" },
-
-                -- Go
                 go = { "gofmt" },
-
-                -- Add more formatters as needed
                 lua = { "stylua" },
                 javascript = { "prettier" },
                 typescript = { "prettier" },
@@ -22,6 +17,7 @@ return {
                 cpp = { "clang_format" },
                 h = { "clang_format" },
                 c = { "clang_format" },
+                gdscript = { "gdformat" },
             },
 
             format_on_save = false,

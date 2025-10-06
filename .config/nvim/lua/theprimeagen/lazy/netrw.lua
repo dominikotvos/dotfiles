@@ -59,6 +59,9 @@ return {
                     hint = "",
                 }
             },
+            filters = {
+                custom = { "%.uid$" } -- Hide files ending with .uid
+            },
         }
 
         -- Move the keybinding to toggle NvimTree outside of on_attach, so it works globally

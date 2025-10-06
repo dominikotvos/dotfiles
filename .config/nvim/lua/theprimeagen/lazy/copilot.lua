@@ -9,7 +9,7 @@ return {
 			auto_trigger = true,
 			hide_during_completion = vim.g.ai_cmp,
 			keymap = {
-                accept = "<Tab>",
+                accept = "<C-y>",
 				next = "<M-]>",
 				prev = "<M-[>",
 			},
