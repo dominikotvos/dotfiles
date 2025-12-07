@@ -1,0 +1,117 @@
+// Waybar configuration for Hyprland
+// Place this file at ~/.config/waybar/config.jsonc
+
+{
+    "layer": "top",
+    "position": "bottom",
+    "height": 24,
+    "spacing": 4,
+    "exclusive": true,
+
+    // Module positioning
+    "modules-left": ["hyprland/workspaces", "hyprland/window"],
+    "modules-right": ["cpu", "memory", "pulseaudio", "battery", "network", "custom/date-kr", "clock", "tray"],
+
+    // Hyprland Workspaces
+    "hyprland/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "format": "{id}",
+        "on-click": "activate",
+        "persistent_workspaces": {
+            "1": [],
+            "2": [],
+            "3": [],
+            "4": [],
+            "5": []
+        }
+    },
+
+    // Hyprland Window Title
+    "hyprland/window": {
+        "format": "{title}",
+        "max-length": 40,
+        "rewrite": {
+            "(.*) — Mozilla Firefox": "🌎 $1",
+            "(.*) - Visual Studio Code": "󰨞 $1"
+        }
+    },
+
+    // CPU Module
+    "cpu": {
+        "format": "cpu: {usage}%",
+        "tooltip": true,
+        "interval": 2
+    },
+
+    // Memory Module
+    "memory": {
+        "format": "mem: {percentage}%",
+        "tooltip-format": "Memory: {used:0.1f}G/{total:0.1f}G",
+        "interval": 2
+    },
+
+    // PulseAudio Module
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": "󰖁 muted",
+        "format-icons": {
+            "headphone": "󰋋",
+            "hands-free": "󰋎",
+            "headset": "󰋎",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["󰕿", "󰖀", "󰕾"]
+        },
+        "on-click": "pavucontrol",
+        "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+        "scroll-step": 1
+    },
+
+    // Battery Module
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 5
+        },
+        "format": "bat: {capacity}%",
+        "format-charging": "chr: {capacity}%",
+        "format-plugged": "full",
+        "format-critical": "low: {capacity}%",
+        "interval": 5
+    },
+
+    // Network Module
+    "network": {
+        "format-wifi": "wifi: {essid}",
+        "format-ethernet": "{ifname}",
+        "format-disconnected": "wifi disconnected",
+        "tooltip-format": "{ifname}: {ipaddr}/{cidr}",
+        "tooltip-format-wifi": "{essid} ({signalStrength}%): {ipaddr}/{cidr}",
+        "on-click": "nm-connection-editor",
+        "interval": 1
+    },
+
+    // Korean Time
+    "custom/date-kr": {
+        "format": "KR: {}",
+        "exec": "TZ=Asia/Seoul date +\"%H:%M\"",
+        "interval": 30
+    },
+
+    // Hungarian Time
+    "clock": {
+        "timezone": "Europe/Budapest",
+        "format": "HU: {:%Y-%m-%d %H:%M:%S}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "interval": 1
+    },
+
+    // System Tray
+    "tray": {
+        "icon-size": 16,
+        "spacing": 8,
+        "show-passive-items": true
+    }
+}

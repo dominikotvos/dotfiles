@@ -1,0 +1,198 @@
+/* Waybar Tokyo Night Theme Style
+ * Place this file at ~/.config/waybar/style.css
+ */
+
+/* Color Variables (matching your Polybar config) */
+@define-color background rgba(0, 0, 0, 0.8);
+@define-color background-alt rgba(55, 59, 65, 0.85);
+@define-color foreground #a9b1d6;
+@define-color primary #7aa2f7;
+@define-color secondary #414868;
+@define-color alert #f7768e;
+@define-color disabled #9aa5ce;
+@define-color separator #565f89;
+@define-color text #c0caf5;
+@define-color green #9ece6a;
+@define-color yellow #e0af68;
+
+/* Global Styles */
+* {
+    font-family: "Hack Nerd Font Mono", "Hack Nerd Font", monospace;
+    font-size: 16px;
+    font-weight: 400;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+}
+
+/* Main Bar */
+window#waybar {
+    background-color: @background;
+    color: @foreground;
+    transition-property: background-color;
+    transition-duration: 0.5s;
+}
+
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+/* Workspaces */
+#workspaces {
+    margin: 0 4px;
+}
+
+#workspaces button {
+    padding: 0 6px;
+    color: @disabled;
+    background-color: transparent;
+    min-width: 20px;
+}
+
+#workspaces button:hover {
+    background: @background-alt;
+    box-shadow: inherit;
+    text-shadow: inherit;
+}
+
+#workspaces button.active {
+    color: @foreground;
+    background-color: @background-alt;
+}
+
+#workspaces button.urgent {
+    background-color: @alert;
+    color: @foreground;
+}
+
+/* Window Title */
+#window {
+    margin: 0 8px;
+    color: @text;
+}
+
+/* Right Side Modules Common Styling */
+#cpu,
+#memory,
+#pulseaudio,
+#battery,
+#network,
+#custom-date-kr,
+#clock,
+#tray {
+    padding: 0 6px;
+    color: @text;
+    font-family: "Hack Nerd Font Mono", "Hack Nerd Font", monospace;
+}
+
+/* Module Separators */
+#cpu,
+#memory,
+#pulseaudio,
+#battery,
+#network,
+#custom-date-kr {
+    border-right: 1px solid @separator;
+    margin-right: 2px;
+    padding-right: 8px;
+}
+
+/* CPU Module */
+#cpu {
+    color: @text;
+}
+
+/* Memory Module */
+#memory {
+    color: @text;
+}
+
+/* PulseAudio Module */
+#pulseaudio {
+    color: @text;
+}
+
+#pulseaudio.muted {
+    color: @disabled;
+}
+
+/* Battery Module */
+#battery {
+    color: @text;
+}
+
+#battery.charging {
+    color: @text;
+}
+
+#battery.plugged {
+    color: @primary;
+}
+
+#battery.critical:not(.charging) {
+    color: @text;
+    animation: blink 0.5s linear infinite alternate;
+}
+
+/* Network Module */
+#network {
+    color: @text;
+}
+
+#network.disconnected {
+    color: @text;
+}
+
+#network.ethernet {
+    color: @text;
+}
+
+/* Clock Modules */
+#custom-date-kr {
+    color: @text;
+}
+
+#clock {
+    color: @text;
+}
+
+/* System Tray */
+#tray {
+    margin: 0 4px;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: @alert;
+}
+
+/* Tooltip Styling */
+tooltip {
+    background: @background;
+    border: 1px solid @primary;
+    border-radius: 4px;
+}
+
+tooltip label {
+    color: @text;
+    padding: 4px;
+}
+
+/* All module labels should use text color */
+label {
+    color: @text;
+    font-family: "Hack Nerd Font Mono", "Hack Nerd Font", monospace;
+}
+
+/* Animation for critical states */
+@keyframes blink {
+    to {
+        background-color: @alert;
+        color: @background;
+    }
+}
+
