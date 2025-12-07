@@ -211,19 +211,22 @@ bindsym $mod+r mode "resize"
 # ------------------------------------------
 exec --no-startup-id nm-applet
 
+# Disable mouse acceleration
+exec --no-startup-id ~/.config/i3/disable-mouse-accel.sh
+
 # notification daemon
 exec --no-startup-id dunst
 
 # Monitors
 exec --no-startup-id xrandr --setprovideroutputsource modesetting NVIDIA-0
 
-exec --no-startup-id xrandr --output eDP-1 --mode 2560x1440 --rate 120
-exec --no-startup-id xrandr --output DP-1-0 --mode 1920x1080 --rate 144 --right-of eDP-1 --primary
-exec --no-startup-id xrandr --output HDMI-1 --mode 2560x1080 --rate 60 --right-of DP-1-0
+exec --no-startup-id xrandr --output eDP --mode 2560x1440 --rate 120
+exec --no-startup-id xrandr --output HDMI-A-0 --mode 1920x1080 --rate 144 --right-of eDP --primary
+exec --no-startup-id xrandr --output DP-1-0 --mode 2560x1080 --rate 60 --right-of HDMI-A-0
 # exec --no-startup-id xrandr --output DP-1-0 --mode 2560x1080 --rate 60 --pos 4480x0 --rotate right
-workspace 1 output eDP-1
-workspace 2 output DP-1-0
-workspace 3 output HDMI-1
+workspace 1 output eDP
+workspace 2 output HDMI-A-0
+workspace 3 output DP-1-0
 
 #Wallpaper
 exec --no-startup-id feh --bg-fill ~/Pictures/ltt.jpg
@@ -251,7 +254,7 @@ bindsym XF86Launch3 exec asusctl led-mode -n # Switch keyboard RGB profile FN+F4
 
 bindsym XF86Launch1 exec rog-control-center
 
-# Alsa audio controls.
+# Alsa audio controls
 bindsym $mod+Shift+comma exec ~/.config/i3/scripts/alsa restore
 bindsym $mod+semicolon exec ~/.config/i3/scripts/alsa down Headphone
 bindsym $mod+comma exec ~/.config/i3/scripts/alsa up Headphone

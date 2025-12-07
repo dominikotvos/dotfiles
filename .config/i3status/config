@@ -53,8 +53,8 @@ general {
 
 order += "volume master"
 order += "disk /"
-# order += "wireless wlp2s0"
-# order += "ethernet enp4s0f4u1"
+ order += "wireless wlp2s0"
+ order += "ethernet enp4s0f4u2"
 order += "battery 0"
 #order += "exec /home/sleuth/dotfiles/.config/i3/scripts/swap_usage.sh"
 order += "memory"
@@ -73,15 +73,15 @@ disk "/" {
     format = "%avail"
 }
 
-# wireless wlp2s0 {
-#     format_up = "W: (%quality at %essid, %bitrate) %ip"
-#         format_down = "W: down"
-# }
+wireless wlp2s0 {
+    format_up = "W: (%quality at %essid, %bitrate)"
+        format_down = "W: down"
+}
 
-# ethernet enp4s0f4u1 {
-#     format_up = "E: %ip (%speed)"
-#         format_down = "E: down"
-# }
+ethernet enp4s0f4u2 {
+    format_up = "E: %ip (%speed)"
+        format_down = "E: down"
+}
 
 battery 0 {
     last_full_capacity = true
@@ -96,7 +96,7 @@ battery 0 {
 }
 
 memory {
-    format = "MEM USED: %used (FREE: %available)"
+    format = "MEM USED: %used"
         threshold_degraded = "10%"
         format_degraded = "MEMORY: %free"
 }

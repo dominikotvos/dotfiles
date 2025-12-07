@@ -24,7 +24,7 @@ export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
 
 # Plugins
 plugins=(fzf-tab git golang docker docker-compose
-	gradle archlinux rust npm zsh-syntax-highlighting zsh-autosuggestions zsh-fzf-history-search)
+	archlinux rust npm zsh-syntax-highlighting zsh-autosuggestions zsh-fzf-history-search gitignore)
 
 # # fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -112,20 +112,16 @@ export ANDROID_HOME=/home/sleuth/Android/Sdk
 export ANDROID_SDK_ROOT=$ANDROID_HOME
 export PATH=$PATH:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools
 export PYTHONPATH=$PYTHONPATH:/usr/lib/python3.12/site-packages
-# export JAVA_HOME=/usr/lib/jvm/java-21-temurin
-export JAVA_HOME=/usr/lib/jvm/java-17-temurin/
+export JAVA_HOME=/usr/lib/jvm/java-21-temurin
+# export JAVA_HOME=/usr/lib/jvm/java-17-temurin/
 export PATH=$JAVA_HOME/bin:$PATH
 eval "$(zoxide init --cmd cd zsh)"
 # export PATH="/home/sleuth/jetbrains_http/ijhttp:$PATH"
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/home/sleuth/google-cloud-sdk/path.zsh.inc' ]; then . '/home/sleuth/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/home/sleuth/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/sleuth/google-cloud-sdk/completion.zsh.inc'; fi
 eval "$(gh copilot alias -- zsh)"
 
 export PATH=$PATH:$HOME/go/bin
+export PATH=$HOME/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin:$PATH
+
 
 alias neofetch="fastfetch"
 
@@ -147,6 +143,12 @@ alias tree="exa --icons -T"
 alias py="python3.10"
 alias icat="kitty +kitten icat"
 alias rmNM="find . -name 'node_modules' -exec rm -rf '{}' +; find . -name 'package-lock.json' -exec rm -rf '{}' +"
+alias gvim="nvim --listen /tmp/godot.pipe"
 
-# Add .NET Core SDK tools
-export PATH="$PATH:/home/sleuth/.dotnet/tools"
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/sleuth/google-cloud-sdk/path.zsh.inc' ]; then . '/home/sleuth/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/sleuth/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/sleuth/google-cloud-sdk/completion.zsh.inc'; fi
+
+fpath+=~/.zfunc; autoload -Uz compinit; compinit

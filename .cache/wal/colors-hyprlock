@@ -1,0 +1,20 @@
+$wallpaper = /home/sleuth/Pictures/andor_sky.png
+$foregroundCol = 206,211,227
+$backgroundCol = 10,13,29
+$color0 = 10,13,29
+$color1 = 80,98,161
+$color2 = 78,103,177
+$color3 = 81,113,206
+$color4 = 108,136,182
+$color5 = 98,144,210
+$color6 = 141,164,219
+$color7 = 206,211,227
+$color8 = 144,147,158
+$color9 = 80,98,161
+$color10 = 78,103,177
+$color11 = 81,113,206
+$color12 = 108,136,182
+$color13 = 98,144,210
+$color14 = 141,164,219
+$color15 = 206,211,227
+
