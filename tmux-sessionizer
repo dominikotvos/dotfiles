@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+
+# If multiple arguments provided, open all of them
+if [[ $# -gt 1 ]]; then
+    tmux_running=$(pgrep tmux)
+    first_session=""
+
+    for selected in "$@"; do
+        if [[ ! -d "$selected" ]]; then
+            continue
+        fi
+
+        selected_name=$(basename "$selected" | tr . _)
+
+        # Create tmux if not running
+        if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+            tmux new-session -d -s $selected_name -c $selected
+            tmux_running="1"
+            first_session=$selected_name
+        elif ! tmux has-session -t=$selected_name 2> /dev/null; then
+            tmux new-session -ds $selected_name -c $selected
+        fi
+
+        # Track first session to switch to
+        if [[ -z $first_session ]]; then
+            first_session=$selected_name
+        fi
+    done
+
+    # Switch to the first session
+    if [[ -n $first_session ]]; then
+        if [[ -z $TMUX ]]; then
+            tmux attach-session -t $first_session
+        else
+            tmux switch-client -t $first_session
+        fi
+    fi
+    exit 0
+fi
+
+# Original single selection logic
+if [[ $# -eq 1 ]]; then
+    selected=$1
+else
+    selected=$(find ~/projects -mindepth 1 -maxdepth 3 -type d | fzf)
+fi
+
+if [[ -z $selected ]]; then
+    exit 0
+fi
+
+selected_name=$(basename "$selected" | tr . _)
+tmux_running=$(pgrep tmux)
+
+if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+    tmux new-session -s $selected_name -c $selected
+    exit 0
+fi
+
+if ! tmux has-session -t=$selected_name 2> /dev/null; then
+    tmux new-session -ds $selected_name -c $selected
+fi
+
+tmux switch-client -t $selected_name
