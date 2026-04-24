@@ -58,3 +58,9 @@ end)
 -- LSP Mappings
 vim.keymap.set("n", "<leader>.", vim.lsp.buf.hover)
 vim.keymap.set("n", "<leader>,", vim.diagnostic.open_float)
+
+-- Terminal: jump out of terminal buffer (Claude Code, etc.) with C-hjkl
+vim.keymap.set("t", "<C-h>", [[<C-\><C-n><C-w>h]], { desc = "Term: window left" })
+vim.keymap.set("t", "<C-j>", [[<C-\><C-n><C-w>j]], { desc = "Term: window down" })
+vim.keymap.set("t", "<C-k>", [[<C-\><C-n><C-w>k]], { desc = "Term: window up" })
+vim.keymap.set("t", "<C-l>", [[<C-\><C-n><C-w>l]], { desc = "Term: window right" })

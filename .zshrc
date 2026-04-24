@@ -104,6 +104,7 @@ alias vim=nvim
 export GTK_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
 export QT_IM_MODULE=ibus
+export GTK_THEME="Adwaita:dark"
 # Postgres user
 alias pg="sudo -i -u postgres"
 alias svim="sudo nvim"
@@ -117,7 +118,6 @@ export JAVA_HOME=/usr/lib/jvm/java-21-temurin
 export PATH=$JAVA_HOME/bin:$PATH
 eval "$(zoxide init --cmd cd zsh)"
 # export PATH="/home/sleuth/jetbrains_http/ijhttp:$PATH"
-eval "$(gh copilot alias -- zsh)"
 
 export PATH=$PATH:$HOME/go/bin
 export PATH=$HOME/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin:$PATH
@@ -152,3 +152,8 @@ if [ -f '/home/sleuth/google-cloud-sdk/path.zsh.inc' ]; then . '/home/sleuth/goo
 if [ -f '/home/sleuth/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/sleuth/google-cloud-sdk/completion.zsh.inc'; fi
 
 fpath+=~/.zfunc; autoload -Uz compinit; compinit
+
+# Git ssh
+eval $(ssh-agent -s)
+ssh-add ~/.ssh/gitlab
+ssh-add ~/.ssh/github

@@ -30,12 +30,15 @@ vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
 
-vim.opt.colorcolumn = "120"
+vim.opt.colorcolumn = "80"
 
 vim.api.nvim_command [[au VimEnter,WinEnter,BufWinEnter * set guicursor=n-v-c:block-Cursor/lCursor]]
 
 vim.opt.list = true
 vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+
+-- Fold characters for nvim-ufo (modern fold appearance)
+vim.opt.fillchars = 'eob: ,fold: ,foldopen:,foldsep: ,foldclose:'
 
 -- DISABLES NETRW FOR NOW
 -- vim.g.loaded_netrw = 1

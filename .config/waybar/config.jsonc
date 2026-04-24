@@ -10,7 +10,7 @@
 
     // Module positioning
     "modules-left": ["hyprland/workspaces", "hyprland/window"],
-    "modules-right": ["cpu", "memory", "pulseaudio", "battery", "network", "custom/date-kr", "clock", "tray"],
+    "modules-right": ["cpu", "memory", "wireplumber", "battery", "network", "custom/date-kr", "clock", "tray"],
 
     // Hyprland Workspaces
     "hyprland/workspaces": {
@@ -52,7 +52,7 @@
     },
 
     // PulseAudio Module
-    "pulseaudio": {
+    "wireplumber": {
         "format": "{icon} {volume}%",
         "format-muted": "󰖁 muted",
         "format-icons": {

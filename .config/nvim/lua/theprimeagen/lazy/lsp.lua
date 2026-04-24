@@ -30,6 +30,12 @@ return {
 
         capabilities.offsetEncoding = { "utf-16" }
 
+        -- Enable folding range capability for nvim-ufo
+        capabilities.textDocument.foldingRange = {
+            dynamicRegistration = false,
+            lineFoldingOnly = true,
+        }
+
         require("fidget").setup({})
         require("mason").setup()
 

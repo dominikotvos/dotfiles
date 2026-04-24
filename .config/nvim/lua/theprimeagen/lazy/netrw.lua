@@ -33,7 +33,7 @@ return {
         require("nvim-tree").setup {
             on_attach = on_attach, -- Attach keybindings
             view = {
-                side = 'right',
+                side = 'left',
                 width = 33,
                 -- 55 for java
             },
