@@ -10,7 +10,7 @@
 
     // Module positioning
     "modules-left": ["hyprland/workspaces", "hyprland/window"],
-    "modules-right": ["cpu", "memory", "wireplumber", "battery", "network", "custom/date-kr", "clock", "tray"],
+    "modules-right": ["cpu", "memory", "wireplumber", "network", "custom/date-kr", "clock", "tray"],
 
     // Hyprland Workspaces
     "hyprland/workspaces": {
@@ -67,19 +67,6 @@
         "on-click": "pavucontrol",
         "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
         "scroll-step": 1
-    },
-
-    // Battery Module
-    "battery": {
-        "states": {
-            "warning": 30,
-            "critical": 5
-        },
-        "format": "bat: {capacity}%",
-        "format-charging": "chr: {capacity}%",
-        "format-plugged": "full",
-        "format-critical": "low: {capacity}%",
-        "interval": 5
     },
 
     // Network Module
