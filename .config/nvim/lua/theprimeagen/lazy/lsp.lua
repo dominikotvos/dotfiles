@@ -46,6 +46,7 @@ return {
                 "ts_ls",
                 "pylsp",
                 "ruff",
+                "clangd",
             },
             handlers = {
                 -- default handler: register/configure the server and then enable it
@@ -117,6 +118,22 @@ return {
                         },
                     })
                     vim.lsp.enable("pylsp")
+                end,
+
+                -- clangd custom config
+                ["clangd"] = function()
+                    vim.lsp.config("clangd", {
+                        capabilities = capabilities,
+                        cmd = {
+                            "clangd",
+                            "--background-index",
+                            "--clang-tidy",
+                            "--completion-style=detailed",
+                            "--header-insertion=iwyu",
+                            "--query-driver=/usr/bin/clang++,/usr/bin/clang,/usr/bin/g++",
+                        },
+                    })
+                    vim.lsp.enable("clangd")
                 end,
             },
         })

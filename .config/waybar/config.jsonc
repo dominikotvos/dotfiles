@@ -3,7 +3,7 @@
 
 {
     "layer": "top",
-    "position": "bottom",
+    "position": "top",
     "height": 24,
     "spacing": 4,
     "exclusive": true,

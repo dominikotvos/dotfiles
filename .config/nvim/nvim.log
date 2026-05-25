@@ -1,3 +1,4 @@
 WRN 2026-05-04T13:45:14.632 ?.2        server_start:197: Failed to start server: operation not permitted: /run/user/1000/nvim.2.0
 WRN 2026-05-04T13:45:14.634 ?.2        server_start:197: Failed to start server: operation not permitted: /run/user/1000/nvim.2.0
 WRN 2026-05-04T13:45:14.635 ?.2        server_start:197: Failed to start server: operation not permitted: /run/user/1000/nvim.2.0
+WRN 2026-05-04T14:15:23.363 ?.2        server_start:197: Failed to start server: operation not permitted: /run/user/1000/lazyvim.2.0
