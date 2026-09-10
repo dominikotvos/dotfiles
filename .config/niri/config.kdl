@@ -113,7 +113,8 @@ layout {
         proportion 0.66667
     }
 
-    default-column-width { proportion 0.5; }
+    // Full-width columns by default; Alt+R cycles 33/50/66%.
+    default-column-width { proportion 1.0; }
 
     // focus-ring and border are redundant — border is the one that matches
     // Hyprland's look, so focus-ring is off.
