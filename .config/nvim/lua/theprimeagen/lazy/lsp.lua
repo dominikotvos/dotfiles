@@ -130,7 +130,7 @@ return {
                             "--clang-tidy",
                             "--completion-style=detailed",
                             "--header-insertion=iwyu",
-                            "--query-driver=/usr/bin/clang++,/usr/bin/clang,/usr/bin/g++",
+                            "--query-driver=/usr/bin/clang++,/usr/bin/clang,/usr/bin/g++,/home/sleuth/UnrealEngine/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/**/bin/clang++",
                         },
                     })
                     vim.lsp.enable("clangd")

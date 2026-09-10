@@ -81,9 +81,55 @@ return {
         }
     },
     config = function()
-        require("UnrealDev").setup({})
-        -- Individual plugin settings can be configured here
-        -- require('uep').setup { ... }
-        -- require('ubt').setup { ... }
+        -- Wayland fix: UnrealEditor launched via :UDEV run inherits nvim's env
+        -- (UBT jobstart has no env hook). Force XWayland + neutralize HiDPI
+        -- scale vars so the editor isn't bugged on Wayland compositors.
+        for k, v in pairs({
+            SDL_VIDEODRIVER             = "x11",
+            QT_SCALE_FACTOR             = "unset",
+            QT_AUTO_SCREEN_SCALE_FACTOR = "unset",
+            GDK_SCALE                   = "unset",
+            GDK_DPI_SCALE               = "unset",
+        }) do
+            vim.env[k] = v
+        end
+
+        require("UnrealDev").setup({
+            -- Forwarded to UBT: default build/run target when no preset given
+            -- and no bang picker used. Linux editor, Development config.
+            engine_path = "/home/sleuth/UnrealEngine",
+            preset_target = "LullabyEditor Linux Development",
+            -- true = last bang-picked preset wins for plain commands this session;
+            -- falls back to preset_target on a fresh session.
+            use_last_preset_as_default = true,
+            automation = {
+                -- clangd reads compile_commands.json once at startup; without this
+                -- a fresh DB is ignored until a manual :LspRestart.
+                restart_lsp_after_gen_compile_db = true,
+            },
+        })
+
+        -- UBT never regenerates the clang DB on its own, so new .cpp files land
+        -- outside compile_commands.json and clangd loses every Unreal include for
+        -- them. Re-run gen_compile_db whenever UCM adds/moves/renames a class.
+        local unl_events = require("UNL.event.events")
+        local unl_types = require("UNL.event.types")
+        local pending = false
+        for _, ev in ipairs({
+            unl_types.ON_AFTER_NEW_CLASS_FILE,
+            unl_types.ON_AFTER_MOVE_CLASS_FILE,
+            unl_types.ON_AFTER_RENAME_CLASS_FILE,
+            unl_types.ON_AFTER_DELETE_CLASS_FILE,
+        }) do
+            unl_events.subscribe(ev, function()
+                -- Debounce: a move fires several events back to back.
+                if pending then return end
+                pending = true
+                vim.defer_fn(function()
+                    pending = false
+                    require("UBT.api").gen_compile_db({})
+                end, 1000)
+            end)
+        end
     end
 }
