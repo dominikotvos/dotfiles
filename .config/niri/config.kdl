@@ -338,24 +338,29 @@ binds {
     Mod+M { quit; }
 
     //--- focus (vim + arrows) --------------------------------------------
-    Mod+H { focus-column-left; }
+    // *-or-monitor-* falls through to the other monitor, but only when there is
+    // no further column in that direction. So Alt+L from the last column on
+    // DP-1 lands on HDMI-A-1, while Alt+L with columns still to the right just
+    // scrolls. This is what replaces reaching for Alt+3.
+    Mod+H { focus-column-or-monitor-left; }
     Mod+J { focus-window-down; }
     Mod+K { focus-window-up; }
-    Mod+L { focus-column-right; }
-    Mod+Left  { focus-column-left; }
+    Mod+L { focus-column-or-monitor-right; }
+    Mod+Left  { focus-column-or-monitor-left; }
     Mod+Down  { focus-window-down; }
     Mod+Up    { focus-window-up; }
-    Mod+Right { focus-column-right; }
+    Mod+Right { focus-column-or-monitor-right; }
 
     //--- move window/column ----------------------------------------------
-    Mod+Shift+H { move-column-left; }
+    // Symmetric: pushing a column past the edge hands it to the other monitor.
+    Mod+Shift+H { move-column-left-or-to-monitor-left; }
     Mod+Shift+J { move-window-down; }
     Mod+Shift+K { move-window-up; }
-    Mod+Shift+L { move-column-right; }
-    Mod+Shift+Left  { move-column-left; }
+    Mod+Shift+L { move-column-right-or-to-monitor-right; }
+    Mod+Shift+Left  { move-column-left-or-to-monitor-left; }
     Mod+Shift+Down  { move-window-down; }
     Mod+Shift+Up    { move-window-up; }
-    Mod+Shift+Right { move-column-right; }
+    Mod+Shift+Right { move-column-right-or-to-monitor-right; }
 
     Mod+Home { focus-column-first; }
     Mod+End  { focus-column-last; }
