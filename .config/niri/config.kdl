@@ -208,9 +208,16 @@ spawn-at-startup "blueman-applet"
 spawn-at-startup "vesktop"
 spawn-at-startup "ssh-agent" "-D" "-a" "/run/user/1000/ssh-agent.socket"
 
-// Bar. waybar for now; replaced by DankMaterialShell once its launch command
-// is verified against the installed package.
-spawn-at-startup "waybar"
+// DankMaterialShell: bar, notifications, launcher, lock, OSDs.
+//
+// Deliberately spawn-at-startup rather than `systemctl --user enable dms.service`.
+// That unit is WantedBy=graphical-session.target, and Hyprland now activates
+// that target too (via hyprland-session.target, the screenshare fix), so
+// enabling it would start DMS on Hyprland as well and fight waybar there.
+// Spawning it here keeps DMS strictly niri-only.
+//
+// DMS owns org.freedesktop.Notifications, so swaync must NOT also run here.
+spawn-at-startup "dms" "run"
 
 // Do NOT add xwayland-satellite here. niri 26.04 creates the X11 sockets,
 // exports $DISPLAY and lazy-spawns it on first X11 client connection. A manual
@@ -293,8 +300,16 @@ binds {
     //--- launchers -------------------------------------------------------
     Mod+Return hotkey-overlay-title="Terminal: kitty" { spawn "kitty"; }
     Mod+E      hotkey-overlay-title="Files: dolphin"  { spawn "dolphin"; }
-    // Phase 2: repoint at the DankMaterialShell launcher via its IPC.
-    Mod+D      hotkey-overlay-title="Launcher"        { spawn "fuzzel"; }
+    Mod+D      hotkey-overlay-title="Launcher"        { spawn "dms" "ipc" "call" "spotlight" "toggle"; }
+
+    //--- DankMaterialShell -----------------------------------------------
+    // Super+L matches the Hyprland lock bind exactly.
+    Super+L    hotkey-overlay-title="Lock the Screen" { spawn "dms" "ipc" "call" "lock" "lock"; }
+    Mod+N      hotkey-overlay-title="Notifications"   { spawn "dms" "ipc" "call" "notifications" "toggle"; }
+    Mod+P      hotkey-overlay-title="Power Menu"      { spawn "dms" "ipc" "call" "powermenu" "toggle"; }
+    Mod+S      hotkey-overlay-title="Settings"        { spawn "dms" "ipc" "call" "settings" "toggle"; }
+    Mod+Shift+V hotkey-overlay-title="Clipboard"      { spawn "dms" "ipc" "call" "clipboard" "toggle"; }
+    Mod+Slash  hotkey-overlay-title="Keybind Cheatsheet" { spawn "dms" "ipc" "call" "keybinds" "toggle"; }
 
     //--- window ----------------------------------------------------------
     Mod+Shift+Q repeat=false { close-window; }
