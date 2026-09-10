@@ -95,6 +95,18 @@ workspace "dev" {
     open-on-output "DP-1"
 }
 
+// 5-10 are named purely so the bar can render them as kanji: DMS keys its
+// workspace icons off the NAME, and unnamed workspaces fall back to niri's
+// per-output index. Not pinned to an output, mirroring Hyprland where 5-10
+// were unpinned. Trade-off: named workspaces persist even when empty, so
+// these always occupy a pill in the bar.
+workspace "five"
+workspace "six"
+workspace "seven"
+workspace "eight"
+workspace "nine"
+workspace "ten"
+
 layout {
     // hyprland.lua: gaps_in = 0, gaps_out = 0
     gaps 0
@@ -362,24 +374,24 @@ binds {
     Mod+2 { focus-workspace "web"; }
     Mod+3 { focus-workspace "chat"; }
     Mod+4 { focus-workspace "dev"; }
-    Mod+5 { focus-workspace 5; }
-    Mod+6 { focus-workspace 6; }
-    Mod+7 { focus-workspace 7; }
-    Mod+8 { focus-workspace 8; }
-    Mod+9 { focus-workspace 9; }
-    Mod+0 { focus-workspace 10; }
+    Mod+5 { focus-workspace "five"; }
+    Mod+6 { focus-workspace "six"; }
+    Mod+7 { focus-workspace "seven"; }
+    Mod+8 { focus-workspace "eight"; }
+    Mod+9 { focus-workspace "nine"; }
+    Mod+0 { focus-workspace "ten"; }
 
     // Hyprland used movetoworkspacesilent — focus does not follow.
     Mod+Shift+1 { move-window-to-workspace "main" focus=false; }
     Mod+Shift+2 { move-window-to-workspace "web" focus=false; }
     Mod+Shift+3 { move-window-to-workspace "chat" focus=false; }
     Mod+Shift+4 { move-window-to-workspace "dev" focus=false; }
-    Mod+Shift+5 { move-window-to-workspace 5 focus=false; }
-    Mod+Shift+6 { move-window-to-workspace 6 focus=false; }
-    Mod+Shift+7 { move-window-to-workspace 7 focus=false; }
-    Mod+Shift+8 { move-window-to-workspace 8 focus=false; }
-    Mod+Shift+9 { move-window-to-workspace 9 focus=false; }
-    Mod+Shift+0 { move-window-to-workspace 10 focus=false; }
+    Mod+Shift+5 { move-window-to-workspace "five" focus=false; }
+    Mod+Shift+6 { move-window-to-workspace "six" focus=false; }
+    Mod+Shift+7 { move-window-to-workspace "seven" focus=false; }
+    Mod+Shift+8 { move-window-to-workspace "eight" focus=false; }
+    Mod+Shift+9 { move-window-to-workspace "nine" focus=false; }
+    Mod+Shift+0 { move-window-to-workspace "ten" focus=false; }
 
     Mod+Tab { focus-workspace-previous; }
 
@@ -415,16 +427,21 @@ binds {
     // niri's built-in screenshot UI replaces the grim+slurp binds.
     // (The old Ctrl+Shift+Print bind called grimblast, which was never
     // installed — it has been broken this whole time.)
-    // Clipboard only (screenshot-path is null).
-    Print       { screenshot; }
-    Shift+Print { screenshot-screen; }
-    Alt+Print   { screenshot-window; }
+    // grim + slurp, same as the Hyprland binds. Drag-release-done, no confirm
+    // step. niri's own screenshot UI always requires an explicit Enter/click,
+    // which is the one thing that made it feel slower than Hyprland.
+    Print       { spawn-sh r#"grim -g "$(slurp -d)" - | wl-copy"#; }
+    Shift+Print { spawn-sh "grim - | wl-copy"; }
+
+    // niri's built-in UI kept on one bind: it is better than slurp for picking
+    // a specific window or output, and can toggle the pointer. Needs a confirm.
+    Alt+Print   { screenshot; }
 
     // Same, but ALSO written to disk. niri copies to the clipboard either way.
     // The timestamp is expanded by the shell, not by niri: `--path` is taken
     // literally, so without this every save would overwrite one file.
-    Ctrl+Print       { spawn-sh r#"niri msg action screenshot        --path "$HOME/Pictures/Screenshots/Screenshot from $(date '+%Y-%m-%d %H-%M-%S').png""#; }
-    Ctrl+Shift+Print { spawn-sh r#"niri msg action screenshot-screen --path "$HOME/Pictures/Screenshots/Screenshot from $(date '+%Y-%m-%d %H-%M-%S').png""#; }
+    Ctrl+Print       { spawn-sh r#"f="$HOME/Pictures/Screenshots/Screenshot from $(date '+%Y-%m-%d %H-%M-%S').png"; grim -g "$(slurp -d)" "$f" && wl-copy < "$f""#; }
+    Ctrl+Shift+Print { spawn-sh r#"f="$HOME/Pictures/Screenshots/Screenshot from $(date '+%Y-%m-%d %H-%M-%S').png"; grim "$f" && wl-copy < "$f""#; }
 
     //--- screencast target (relevant for Jitsi) --------------------------
     Mod+Shift+C { set-dynamic-cast-window; }
