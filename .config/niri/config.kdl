@@ -170,7 +170,9 @@ animations {
 // ones (kitty runs at 0.95 opacity). prefer-no-csd fixes that.
 prefer-no-csd
 
-screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+// null = never write screenshots to disk; they go to the clipboard only.
+// The Ctrl+Print binds below pass an explicit --path when a file IS wanted.
+screenshot-path null
 
 hotkey-overlay {
     skip-at-startup
@@ -413,9 +415,16 @@ binds {
     // niri's built-in screenshot UI replaces the grim+slurp binds.
     // (The old Ctrl+Shift+Print bind called grimblast, which was never
     // installed — it has been broken this whole time.)
-    Print { screenshot; }
+    // Clipboard only (screenshot-path is null).
+    Print       { screenshot; }
     Shift+Print { screenshot-screen; }
-    Alt+Print { screenshot-window; }
+    Alt+Print   { screenshot-window; }
+
+    // Same, but ALSO written to disk. niri copies to the clipboard either way.
+    // The timestamp is expanded by the shell, not by niri: `--path` is taken
+    // literally, so without this every save would overwrite one file.
+    Ctrl+Print       { spawn-sh r#"niri msg action screenshot        --path "$HOME/Pictures/Screenshots/Screenshot from $(date '+%Y-%m-%d %H-%M-%S').png""#; }
+    Ctrl+Shift+Print { spawn-sh r#"niri msg action screenshot-screen --path "$HOME/Pictures/Screenshots/Screenshot from $(date '+%Y-%m-%d %H-%M-%S').png""#; }
 
     //--- screencast target (relevant for Jitsi) --------------------------
     Mod+Shift+C { set-dynamic-cast-window; }
