@@ -17,7 +17,7 @@
 
 /* Global Styles */
 * {
-    font-family: "Hack Nerd Font Mono", "Hack Nerd Font", monospace;
+    font-family: "Hack Nerd Font Mono", "Hack Nerd Font", "Noto Sans Mono CJK JP", monospace;
     font-size: 16px;
     font-weight: 400;
     border: none;
@@ -46,7 +46,7 @@ window#waybar.hidden {
     padding: 0 6px;
     color: @disabled;
     background-color: transparent;
-    min-width: 20px;
+    min-width: 24px;
 }
 
 #workspaces button:hover {
@@ -82,7 +82,7 @@ window#waybar.hidden {
 #tray {
     padding: 0 6px;
     color: @text;
-    font-family: "Hack Nerd Font Mono", "Hack Nerd Font", monospace;
+    font-family: "Hack Nerd Font Mono", "Hack Nerd Font", "Noto Sans Mono CJK JP", monospace;
 }
 
 /* Module Separators */
@@ -185,7 +185,7 @@ tooltip label {
 /* All module labels should use text color */
 label {
     color: @text;
-    font-family: "Hack Nerd Font Mono", "Hack Nerd Font", monospace;
+    font-family: "Hack Nerd Font Mono", "Hack Nerd Font", "Noto Sans Mono CJK JP", monospace;
 }
 
 /* Animation for critical states */
