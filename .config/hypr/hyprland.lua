@@ -36,7 +36,9 @@ require("monitors")
 -- See https://wiki.hypr.land/Configuring/Basics/Autostart/
 hl.on("hyprland.start", function()
     hl.exec_cmd("xrandr --output DP-1 --primary")
-    hl.exec_cmd("nm-applet")
+    -- nm-applet removed: noctalia has its own `network` bar widget and network
+    -- controls in the control centre, so nm-applet was a duplicate indicator
+    -- whose tray pixmap rendered blurry. nmtui/nmcli still work as before.
     hl.exec_cmd("fcitx5")
     hl.exec_cmd("noctalia --daemon")
     hl.exec_cmd("vesktop")
