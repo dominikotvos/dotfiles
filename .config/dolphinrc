@@ -1,0 +1,31 @@
+[DetailsMode]
+PreviewSize=16
+RightPadding=0
+
+[ExtractDialog]
+2 screens: Window-Maximized=true
+
+[General]
+HomeUrl=/home/sleuth
+RememberOpenedTabs=false
+Version=202
+ViewPropsTimestamp=2026,2,21,13,47,8.676
+
+[IconsMode]
+IconSize=22
+PreviewSize=64
+UseSystemFont=false
+ViewFont=Noto Sans,10,-1,5,400,0,0,0,0,0,0,0,0,0,0,1,,0,0
+
+[KFileDialog Settings]
+Places Icons Auto-resize=false
+Places Icons Static Size=22
+
+[MainWindow]
+MenuBar=Disabled
+
+[PreviewSettings]
+Plugins=windowsexethumbnail,svgthumbnail,cursorthumbnail,directorythumbnail,imagethumbnail,comicbookthumbnail,fontthumbnail,djvuthumbnail,opendocumentthumbnail,windowsimagethumbnail,appimagethumbnail,ebookthumbnail,exrthumbnail,audiothumbnail,kraorathumbnail,jpegthumbnail,glycin-image-rs,glycin-jxl,glycin-heif,glycin-svg
+
+[UiSettings]
+ColorScheme=Noctalia
