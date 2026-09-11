@@ -25,6 +25,6 @@ entry = "fcitx5.luau"
 id = "switcher"
 entry = "switcher.luau"
 width = 260
-height = 300
+height = 272
 placement = "floating"
 position = "top_right"
