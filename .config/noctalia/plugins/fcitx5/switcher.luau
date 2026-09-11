@@ -57,6 +57,9 @@ local function render()
         noctalia.runAsync({ "fcitx5-remote", "-s", name }, function(res)
           if res.exitCode == 0 then
             current = name
+            -- Push straight to the bar widget instead of letting it discover
+            -- the change on its next poll, which looked like a ~1s lag.
+            noctalia.state.set("method", name)
             render()
             panel.close()
           else

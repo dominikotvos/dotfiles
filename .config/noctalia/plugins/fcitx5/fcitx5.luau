@@ -64,7 +64,21 @@ local function trim(s)
   return (string.gsub(s or "", "%s+$", ""))
 end
 
+-- The switcher panel publishes here the instant `fcitx5-remote -s` returns, so
+-- the label updates on click rather than on the next poll tick.
+noctalia.state.watch("method", function(value)
+  if value and value ~= "" then
+    method = value
+    hasFocus = true
+    ready = true
+    render()
+  end
+end)
+
+local ticks = 0
+
 local function poll()
+  ticks += 1
   noctalia.runAsync({ "fcitx5-remote", "-n" }, function(res)
     if res.exitCode == 0 then
       ready = true
@@ -85,12 +99,15 @@ local function poll()
   end)
 
   -- Group is focus-independent, so it always answers and gives the tooltip
-  -- something true to say even while method is stale.
-  noctalia.runAsync({ "fcitx5-remote", "-q" }, function(res)
-    if res.exitCode == 0 then
-      group = trim(res.stdout)
-    end
-  end)
+  -- something true to say even while method is stale. It changes rarely, so
+  -- only refresh it every 10th tick rather than on every poll.
+  if group == "" or ticks % 10 == 0 then
+    noctalia.runAsync({ "fcitx5-remote", "-q" }, function(res)
+      if res.exitCode == 0 then
+        group = trim(res.stdout)
+      end
+    end)
+  end
 
   noctalia.runAsync({ "fcitx5-remote" }, function(res)
     if res.exitCode == 0 then
@@ -103,7 +120,7 @@ end
 function update()
   -- fcitx5 has no change signal we can reach without DBus, so poll. One cheap
   -- exec per second is well under the per-call budget.
-  noctalia.setUpdateInterval(1000)
+  noctalia.setUpdateInterval(500)
   if not noctalia.commandExists("fcitx5-remote") then
     ready = false
     barWidget.setText("--")
@@ -123,6 +140,14 @@ function onRightClick()
   noctalia.runAsync({ "fcitx5-remote", "-t" }, function()
     poll()
   end)
+end
+
+-- Shell-triggered refresh, e.g. after changing methods from a script:
+--   noctalia msg plugin sleuth/fcitx5:fcitx5 focused refresh
+function onIpc(event, _payload)
+  if event == "refresh" then
+    poll()
+  end
 end
 
 -- Middle click: reload fcitx5 config, handy after editing profiles.
