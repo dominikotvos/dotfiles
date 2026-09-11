@@ -113,8 +113,13 @@ function update()
   poll()
 end
 
--- Left click: activate/deactivate the current input method.
+-- Left click: open the picker panel so a method can be chosen directly.
 function onClick()
+  noctalia.runAsync({ "noctalia", "msg", "panel-toggle", "sleuth/fcitx5:switcher" })
+end
+
+-- Right click: quick activate/deactivate of the current method, no panel.
+function onRightClick()
   noctalia.runAsync({ "fcitx5-remote", "-t" }, function()
     poll()
   end)

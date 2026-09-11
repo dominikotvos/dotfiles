@@ -18,3 +18,13 @@ description = "Shows the active fcitx5 input method in the bar; click to toggle,
 [[widget]]
 id = "fcitx5"
 entry = "fcitx5.luau"
+
+# Dropdown: pick an input method directly. Opened from the bar widget's click,
+# via `noctalia msg panel-toggle sleuth/fcitx5:switcher`.
+[[panel]]
+id = "switcher"
+entry = "switcher.luau"
+width = 260
+height = 300
+placement = "floating"
+position = "top_right"

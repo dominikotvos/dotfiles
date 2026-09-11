@@ -23,6 +23,8 @@
 #   * enabling a plugin makes the daemon re-export settings.toml in the
 #     background, which silently drops concurrent hand edits - edit AFTER.
 #   * local plugins live in ~/.local/share/noctalia/plugins/<dir> (symlinked here).
+#   * a NEW [[panel]] in a plugin manifest is not picked up by config-reload;
+#     the plugin must be disabled and re-enabled before panel-toggle knows it.
 
 
 [bar.default]
