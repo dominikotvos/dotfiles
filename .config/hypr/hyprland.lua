@@ -70,8 +70,8 @@ hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
 -- Refer to https://wiki.hypr.land/Configuring/Basics/Variables/
 hl.config({
     general = {
-        gaps_in          = 5,
-        gaps_out         = 10,
+        gaps_in          = 3,
+        gaps_out         = 6,
 
         border_size      = 2,
 
@@ -105,7 +105,7 @@ hl.config({
 
     -- https://wiki.hypr.land/Configuring/Basics/Variables/#decoration
     decoration = {
-        rounding         = 10,
+        rounding         = 6,
         rounding_power   = 2,
 
         -- Change transparency of focused and unfocused windows
@@ -362,7 +362,7 @@ require("noctalia").apply_theme()
 hl.config({
     general = {
         col = {
-            inactive_border = "rgb(3c5066)",
+            inactive_border = "rgb(3c434d)",
         },
     },
 })
