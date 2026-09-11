@@ -332,7 +332,7 @@ require("noctalia").apply_theme()
 hl.config({
     general = {
         col = {
-            inactive_border = "rgb(3a424c)",
+            inactive_border = "rgb(3c5066)",
         },
     },
 })
