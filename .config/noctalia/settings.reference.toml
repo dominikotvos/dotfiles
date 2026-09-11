@@ -36,7 +36,7 @@
 [bar.default]
 border = "outline"
 border_width = 1
-center = [ "clock", "clock_hu" ]
+center = [ "clock_hu", "clock_sep", "clock_kr" ]
 concave_edge_corners = true
 end = [
     "media",
@@ -82,15 +82,21 @@ font_scale = 1.3
 label_source = "name"
 style = "minimal"
 
-[widget.clock]
-format = "{:%H:%M}   {:%a %d %b}"
-tooltip_format = "{:%A, %d %B %Y}"
-
 [widget.clock_hu]
 type = "clock"
 timezone = "Europe/Budapest"
 format = "HU {:%H:%M}"
 tooltip_format = "Budapest  {:%A, %d %B %Y  %H:%M}"
+
+[widget.clock_kr]
+type = "clock"
+timezone = "Asia/Seoul"
+format = "KR {:%H:%M}  ·  {:%a %d %b}"
+tooltip_format = "Seoul  {:%A, %d %B %Y  %H:%M}"
+
+[widget.clock_sep]
+type = "text"
+text = "·"
 
 [theme.templates]
     builtin_ids = [ "hyprland", "kitty", "ghostty", "alacritty", "gtk3", "gtk4", "qt", "kcolorscheme", "btop" ]
