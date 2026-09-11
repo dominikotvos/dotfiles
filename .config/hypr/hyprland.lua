@@ -211,10 +211,19 @@ require("keys")
 -- See https://wiki.hypr.land/Configuring/Basics/Window-Rules/
 -- and https://wiki.hypr.land/Configuring/Basics/Workspace-Rules/
 
-hl.workspace_rule({ workspace = "1", monitor = "DP-1" })
-hl.workspace_rule({ workspace = "2", monitor = "DP-1" })
-hl.workspace_rule({ workspace = "3", monitor = "HDMI-A-1" })
-hl.workspace_rule({ workspace = "4", monitor = "DP-1" })
+-- Workspaces are named in kanji so the noctalia bar can label them 一..十 via
+-- label_source = "name". Monitor pinning is unchanged: 1, 2, 4 on DP-1 and 3 on
+-- HDMI-A-1; 5-10 have no monitor rule and open wherever focus is.
+local WS_KANJI   = { "一", "二", "三", "四", "五", "六", "七", "八", "九", "十" }
+local WS_MONITOR = { [1] = "DP-1", [2] = "DP-1", [3] = "HDMI-A-1", [4] = "DP-1" }
+
+for i = 1, 10 do
+    hl.workspace_rule({
+        workspace    = tostring(i),
+        monitor      = WS_MONITOR[i],
+        default_name = WS_KANJI[i],
+    })
+end
 
 hl.window_rule({
     name      = "vesktop-ws",
