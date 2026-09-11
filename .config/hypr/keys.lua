@@ -25,6 +25,12 @@ local function build(mod)
     add(mod .. " + F",       hl.dsp.window.fullscreen())
     add(mod .. " + T",       hl.dsp.layout("togglesplit")) -- dwindle only
 
+    -- Noctalia shell. Panel ids are verified against `noctalia msg panel-open`.
+    add(mod .. " + C",       hl.dsp.exec_cmd("noctalia msg panel-toggle control-center"))
+    add(mod .. " + N",       hl.dsp.exec_cmd("noctalia msg notification-dnd-toggle"))
+    add(mod .. " + I",       hl.dsp.exec_cmd("noctalia msg caffeine-toggle"))
+    add(mod .. " + W",       hl.dsp.exec_cmd("noctalia msg wallpaper-next"))
+
     -- Move focus / move window, vim keys
     for key, dir in pairs(DIRS) do
         add(mod .. " + " .. key,           hl.dsp.focus({ direction = dir }))
@@ -57,16 +63,16 @@ end
 
 -- Binds that are identical in both modes: register once, never toggled.
 -- Lock stays on SUPER so it survives the ALT/SUPER switch below.
-hl.bind("SUPER + L",            hl.dsp.exec_cmd("hyprlock"))
+hl.bind("SUPER + L",            hl.dsp.exec_cmd("noctalia msg session lock"))
 
 hl.bind("Print",                hl.dsp.exec_cmd('grim -g "$(slurp -d)" - | wl-copy'))
 hl.bind("SHIFT + Print",        hl.dsp.exec_cmd("grim - | wl-copy"))
 hl.bind("CTRL + SHIFT + Print", hl.dsp.exec_cmd("grimblast --notify copy area"))
 
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true, repeating = true })
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),      { locked = true, repeating = true })
-hl.bind("XF86AudioMute",        hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),     { locked = true, repeating = true })
-hl.bind("XF86AudioMicMute",     hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),   { locked = true, repeating = true })
+hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("noctalia msg volume-up 5"),   { locked = true, repeating = true })
+hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("noctalia msg volume-down 5"), { locked = true, repeating = true })
+hl.bind("XF86AudioMute",        hl.dsp.exec_cmd("noctalia msg volume-mute"),   { locked = true, repeating = true })
+hl.bind("XF86AudioMicMute",     hl.dsp.exec_cmd("noctalia msg mic-mute"),      { locked = true, repeating = true })
 hl.bind("XF86MonBrightnessUp",  hl.dsp.exec_cmd("brightnessctl s 10%+"),                           { locked = true, repeating = true })
 hl.bind("XF86MonBrightnessDown",hl.dsp.exec_cmd("brightnessctl s 10%-"),                           { locked = true, repeating = true })
 

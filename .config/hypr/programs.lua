@@ -4,5 +4,5 @@
 return {
     terminal    = "kitty",
     fileManager = "dolphin",
-    menu        = "/home/sleuth/.config/rofi/launchers/type-4/launcher.sh",
+    menu        = "noctalia msg panel-toggle launcher",
 }
