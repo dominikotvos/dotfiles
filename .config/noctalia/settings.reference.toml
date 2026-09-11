@@ -19,15 +19,31 @@
 #   * click bindings go in [widget.<n>.actions] left/right/middle - a bare
 #     `command` key still parses but warns as deprecated.
 #   * docs: https://docs.noctalia.dev/noctalia/bar/widgets/
-#   * `noctalia config validate` names every unknown key - use it to probe.
+#   * `noctalia config validate` names every unknown key - use it to probe.#   * plugin widget ids in a bar array are fully qualified: "author/plugin:entry".
+#   * enabling a plugin makes the daemon re-export settings.toml in the
+#     background, which silently drops concurrent hand edits - edit AFTER.
+#   * local plugins live in ~/.local/share/noctalia/plugins/<dir> (symlinked here).
+
 
 [bar.default]
-start = [ "gin", "workspaces" ]
-center = [ "clock" ]
-end = [ "media", "tray", "notifications", "clipboard", "network", "bluetooth", "volume", "brightness", "battery", "control-center", "session" ]
 border = "outline"
 border_width = 1
+center = [ "clock" ]
 concave_edge_corners = true
+end = [
+    "sleuth/fcitx5:fcitx5",
+    "media",
+    "tray",
+    "notifications",
+    "clipboard",
+    "network",
+    "bluetooth",
+    "volume",
+    "brightness",
+    "battery",
+    "control-center",
+    "session"
+]
 font_family = "Noto Sans CJK JP"
 font_scale = 1.05
 font_weight = 600
@@ -35,8 +51,17 @@ hover_highlight = true
 margin_ends = 0
 padding = 8
 radius = 0
+start = [ "gin", "workspaces" ]
 thickness = 30
 widget_spacing = 8
+
+[widget.gin]
+glyph = ""
+label = "銀"
+type = "custom_button"
+
+    [widget.gin.actions]
+    left = "panel-toggle launcher"
 
 [widget.wallpaper]
 enabled = false
@@ -46,12 +71,11 @@ font_scale = 1.3
 label_source = "name"
 style = "minimal"
 
-[widget.gin]
-type = "custom_button"
-label = "銀"
-
-    [widget.gin.actions]
-    left = "panel-toggle launcher"
+[widget.tray]
+hidden = [ "Fcitx" ]
 
 [theme.templates]
     builtin_ids = [ "hyprland", "kitty", "ghostty", "alacritty", "gtk3", "gtk4", "qt", "kcolorscheme", "btop" ]
+
+[shell]
+avatar_path = "/home/sleuth/Pictures/Gintoki.jpg"

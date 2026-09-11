@@ -1,0 +1,20 @@
+# Native fcitx5 indicator for the noctalia bar.
+#
+# Replaces fcitx5's own tray icon, which rasterises the layout name into a small
+# pixmap and therefore always looks low-res. This renders as real bar text, so it
+# inherits the bar's font, weight and scale like every other widget.
+
+id = "sleuth/fcitx5"
+name = "Fcitx5"
+version = "1.0.0"
+plugin_api = 9
+author = "sleuth"
+license = "MIT"
+dependencies = []
+tags = ["input"]
+icon = "keyboard"
+description = "Shows the active fcitx5 input method in the bar; click to toggle, right-click to cycle group."
+
+[[widget]]
+id = "fcitx5"
+entry = "fcitx5.luau"
