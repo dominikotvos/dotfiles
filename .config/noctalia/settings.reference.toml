@@ -1,0 +1,22 @@
+# Reference copy of the noctalia settings we author by hand.
+#
+# The live file is ~/.local/state/noctalia/settings.toml - it is state, rewritten
+# by the daemon, so it is NOT symlinked here. This records the sections that were
+# non-obvious to derive, so they can be re-applied on a fresh machine.
+#
+# Note the schema: the workspaces widget is a TOP-LEVEL [widget.workspaces],
+# not nested under [bar.default]. label_source = "name" is what makes the bar
+# show the kanji workspace names set in hyprland.lua.
+
+[bar.default]
+margin_ends = 0
+padding = 10
+radius = 0
+
+[widget.workspaces]
+font_scale = 1.1000000000000001
+label_source = "name"
+style = "minimal"
+
+[theme.templates]
+    builtin_ids = [ "hyprland", "kitty", "ghostty", "alacritty", "gtk3", "gtk4", "qt", "kcolorscheme", "btop" ]
