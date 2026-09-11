@@ -30,6 +30,8 @@ local function build(mod)
     add(mod .. " + N",       hl.dsp.exec_cmd("noctalia msg notification-dnd-toggle"))
     add(mod .. " + I",       hl.dsp.exec_cmd("noctalia msg caffeine-toggle"))
     add(mod .. " + W",       hl.dsp.exec_cmd("noctalia msg wallpaper-next"))
+    add(mod .. " + Y",       hl.dsp.exec_cmd("noctalia msg panel-toggle clipboard"))
+    add(mod .. " + X",       hl.dsp.exec_cmd("noctalia msg panel-toggle session"))
 
     -- Move focus / move window, vim keys
     for key, dir in pairs(DIRS) do

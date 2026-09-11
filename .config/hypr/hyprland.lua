@@ -312,3 +312,18 @@ hl.window_rule({
     size = "1152 648",
     center = true,
 })
+
+-- For Noctalia Color templates
+require("noctalia").apply_theme()
+
+-- Noctalia's Hyprland template sets inactive_border = surface. At gaps_out = 0 the
+-- border is the only seam between tiled windows, so surface-on-surface makes it
+-- vanish. Pin it to the palette's outline tone instead. Must stay after the
+-- require above, which is what sets the colors in the first place.
+hl.config({
+    general = {
+        col = {
+            inactive_border = "rgb(3a424c)",
+        },
+    },
+})
