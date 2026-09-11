@@ -36,7 +36,7 @@
 [bar.default]
 border = "outline"
 border_width = 1
-center = [ "clock" ]
+center = [ "clock", "clock_hu" ]
 concave_edge_corners = true
 end = [
     "media",
@@ -85,6 +85,12 @@ style = "minimal"
 [widget.clock]
 format = "{:%H:%M}   {:%a %d %b}"
 tooltip_format = "{:%A, %d %B %Y}"
+
+[widget.clock_hu]
+type = "clock"
+timezone = "Europe/Budapest"
+format = "HU {:%H:%M}"
+tooltip_format = "Budapest  {:%A, %d %B %Y  %H:%M}"
 
 [theme.templates]
     builtin_ids = [ "hyprland", "kitty", "ghostty", "alacritty", "gtk3", "gtk4", "qt", "kcolorscheme", "btop" ]
