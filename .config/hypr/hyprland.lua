@@ -70,8 +70,8 @@ hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")
 -- Refer to https://wiki.hypr.land/Configuring/Basics/Variables/
 hl.config({
     general = {
-        gaps_in          = 0,
-        gaps_out         = 0,
+        gaps_in          = 5,
+        gaps_out         = 10,
 
         border_size      = 2,
 
@@ -105,7 +105,7 @@ hl.config({
 
     -- https://wiki.hypr.land/Configuring/Basics/Variables/#decoration
     decoration = {
-        rounding         = 1,
+        rounding         = 10,
         rounding_power   = 2,
 
         -- Change transparency of focused and unfocused windows
@@ -113,7 +113,19 @@ hl.config({
         inactive_opacity = 1.0,
 
         shadow           = { enabled = false },
-        blur             = { enabled = false },
+
+        -- Blur is the only per-frame-expensive effect enabled here. Every game
+        -- opts back out via the perf window rules below, which also restore
+        -- opaque so the direct_scanout path stays available.
+        blur             = {
+            enabled           = true,
+            size              = 6,
+            passes            = 2,
+            new_optimizations = true,
+            ignore_opacity    = true,
+            popups            = true,
+            xray              = false,
+        },
     },
 
     -- Off entirely, so the default curves/animation leaves are not defined.
@@ -230,6 +242,24 @@ hl.window_rule({
     match     = { class = "^(vesktop)$" },
     workspace = "3 silent",
 })
+
+-- Games opt out of every desktop effect. Blur and animations are on globally for
+-- the desktop; anything here gets them switched back off, stays opaque, and so
+-- keeps the tearing / direct scanout path that general.allow_tearing enables.
+for _, g in ipairs({
+    { name = "sekiro-perf",     class = "^(sekiro\\.exe)$" },
+    { name = "steam-app-perf",  class = "^(steam_app_\\d+)$" },
+    { name = "lostark-perf",    class = "^(steam_app_1599340)$" },
+}) do
+    hl.window_rule({
+        name      = g.name,
+        match     = { class = g.class },
+        no_blur   = true,
+        no_shadow = true,
+        no_anim   = true,
+        opaque    = true,
+    })
+end
 
 -- CS2: allow tearing for this window (general.allow_tearing above is the global gate).
 hl.window_rule({

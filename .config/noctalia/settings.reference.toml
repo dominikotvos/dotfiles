@@ -1,22 +1,84 @@
 # Reference copy of the noctalia settings we author by hand.
 #
-# The live file is ~/.local/state/noctalia/settings.toml - it is state, rewritten
-# by the daemon, so it is NOT symlinked here. This records the sections that were
-# non-obvious to derive, so they can be re-applied on a fresh machine.
+# Live file is ~/.local/state/noctalia/settings.toml - that is STATE, rewritten by
+# the daemon, so it is not symlinked. This records the non-obvious parts.
 #
-# Note the schema: the workspaces widget is a TOP-LEVEL [widget.workspaces],
-# not nested under [bar.default]. label_source = "name" is what makes the bar
-# show the kanji workspace names set in hyprland.lua.
+# Schema notes learned the hard way:
+#   * the workspaces widget is a TOP-LEVEL [widget.workspaces], NOT nested under
+#     [bar.default]. label_source = "name" shows the kanji names from hyprland.lua.
+#   * capsules are per-widget: [widget.<id>] capsule = true. The bar-level
+#     capsule_* keys only set their STYLE.
+#   * bar.default.border / capsule_fill / capsule_border take a ColorSpec string
+#     (a palette token name like "outline"), not a bool.
+#   * widget.launcher.glyph takes a TABLER ICON NAME, not text. To use a kanji
+#     sigil, render it to a PNG and use custom_image + custom_image_colorize.
+#   * `noctalia config validate` names every unknown key - use it to probe.
 
 [bar.default]
 margin_ends = 0
 padding = 10
 radius = 0
+thickness = 36
+font_family = "Noto Serif CJK JP"
+font_scale = 1.0
+font_weight = 500
+border = "outline"
+border_width = 1
+concave_edge_corners = true
+widget_spacing = 6
+capsule_radius = 10
+capsule_padding = 10
+capsule_opacity = 0.85
+capsule_fill = "surface_variant"
+capsule_border = "outline"
+capsule_thickness = 1
+hover_highlight = true
+
+[widget.launcher]
+capsule = true
+custom_image = "/home/sleuth/dotfiles/.config/noctalia/assets/sigil-gin.png"
+custom_image_colorize = true
 
 [widget.workspaces]
-font_scale = 1.1000000000000001
+capsule = true
+font_scale = 1.1
 label_source = "name"
 style = "minimal"
+
+[widget.clock]
+capsule = true
+
+[widget.control-center]
+capsule = true
+
+[widget.session]
+capsule = true
+
+[desktop_widgets]
+enabled = true
+schema_version = 2
+widget_order = [ "gin-clock@DP-1" ]
+
+    [desktop_widgets.grid]
+    cell_size = 16
+    major_interval = 4
+    visible = true
+
+    [desktop_widgets.widget."gin-clock@DP-1".settings]
+    font_family = "Noto Serif CJK JP"
+    color = "on_surface"
+    format = "%H:%M"
+
+    [desktop_widgets.widget."gin-clock@DP-1"]
+    type = "clock"
+    output = "DP-1"
+    cx = 1500.0
+    cy = 240.0
+    box_width = 620.0
+    box_height = 200.0
+    placement_width = 1920.0
+    placement_height = 1080.0
+    rotation = 0.0
 
 [theme.templates]
     builtin_ids = [ "hyprland", "kitty", "ghostty", "alacritty", "gtk3", "gtk4", "qt", "kcolorscheme", "btop" ]
