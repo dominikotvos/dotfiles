@@ -114,5 +114,13 @@ local function load()
   end)
 end
 
+-- Re-read on every open: the profile changes whenever an input method is added
+-- or removed, and fcitx5 rewrites it on exit. Reading once at script load left
+-- the list stale.
+function onOpen(_context)
+  load()
+  render()
+end
+
 load()
 render()
