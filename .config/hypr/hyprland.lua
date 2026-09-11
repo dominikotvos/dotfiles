@@ -109,8 +109,8 @@ hl.config({
         rounding_power   = 2,
 
         -- Change transparency of focused and unfocused windows
-        active_opacity   = 1.0,
-        inactive_opacity = 1.0,
+        active_opacity   = 0.96,
+        inactive_opacity = 0.92,
 
         shadow           = { enabled = false },
 
@@ -119,7 +119,7 @@ hl.config({
         -- opaque so the direct_scanout path stays available.
         blur             = {
             enabled           = true,
-            size              = 4,
+            size              = 1,
             passes            = 2,
             new_optimizations = true,
             ignore_opacity    = true,
@@ -301,16 +301,6 @@ hl.window_rule({
     immediate       = true,
     idle_inhibit    = "fullscreen",
 })
-
--- Let the desktop shell apps sit on the blur instead of blocking it. Games are
--- excluded by the perf rules above, which force opaque back on.
-for _, c in ipairs({ "^(org\\.kde\\.dolphin)$", "^(org\\.kde\\.ark)$", "^(systemsettings)$" }) do
-    hl.window_rule({
-        name             = "translucent-" .. c:gsub("[^%w]", ""),
-        match            = { class = c },
-        opacity = 0.94,
-    })
-end
 
 hl.window_rule({
     name = "mangayomi",
