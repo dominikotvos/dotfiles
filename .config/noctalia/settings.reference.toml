@@ -84,7 +84,7 @@ enabled = false
 font_scale = 1.3
 label_source = "name"
 style = "minimal"
-focused_color = "#EBEEE8"
+focused_color = "#C9E0EF"
 occupied_color = "primary"
 empty_color = "on_surface_variant"
 
