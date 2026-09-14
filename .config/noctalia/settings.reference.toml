@@ -31,6 +31,8 @@
 #     (singular) and [control_center], while "notifications"/"panels"/"appearance"
 #     are all rejected. Probe with `noctalia config validate` and read the WARN
 #     text - "unknown section" vs "unknown setting" tells you which half is wrong.
+#   * workspaces colour keys are focused_color / occupied_color / empty_color
+#     (NOT active_color / inactive_color, which the i18n labels suggest).
 
 
 [bar.default]
@@ -81,6 +83,9 @@ enabled = false
 font_scale = 1.3
 label_source = "name"
 style = "minimal"
+focused_color = "secondary"
+occupied_color = "primary"
+empty_color = "on_surface_variant"
 
 [widget.clock_hu]
 type = "clock"
