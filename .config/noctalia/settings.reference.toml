@@ -22,7 +22,7 @@
 #   * `noctalia config validate` names every unknown key - use it to probe.#   * plugin widget ids in a bar array are fully qualified: "author/plugin:entry".
 #   * enabling a plugin makes the daemon re-export settings.toml in the
 #     background, which silently drops concurrent hand edits - edit AFTER.
-#   * local plugins live in ~/.local/share/noctalia/plugins/<dir> (symlinked here).
+#   * local plugins live in ~/.local/share/noctalia/plugins/<dir> (stowed from dotfiles).
 #   * a NEW [[panel]] in a plugin manifest is not picked up by config-reload;
 #     the plugin must be disabled and re-enabled before panel-toggle knows it.
 #   * [lockscreen_widgets] enabled MUST be true - that section draws the login
