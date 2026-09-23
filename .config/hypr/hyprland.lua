@@ -107,12 +107,12 @@ hl.config({
 
     -- https://wiki.hypr.land/Configuring/Basics/Variables/#decoration
     decoration = {
-        rounding         = 6,
-        rounding_power   = 2,
+        rounding         = 1,
+        rounding_power   = 1,
 
         -- Change transparency of focused and unfocused windows
-        active_opacity   = 0.96,
-        inactive_opacity = 0.92,
+        active_opacity   = 1,
+        inactive_opacity = 0.99,
 
         shadow           = { enabled = false },
 
@@ -122,7 +122,7 @@ hl.config({
         blur             = {
             enabled           = true,
             size              = 1,
-            passes            = 2,
+            passes            = 1,
             new_optimizations = true,
             ignore_opacity    = true,
             popups            = true,

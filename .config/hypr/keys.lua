@@ -43,7 +43,8 @@ local function build(mod)
     for i = 1, 10 do
         local key = i % 10 -- 10 maps to key 0
         add(mod .. " + " .. key,           hl.dsp.focus({ workspace = i }))
-        add(mod .. " + SHIFT + " .. key,   hl.dsp.window.move({ workspace = i, silent = true }))
+        -- follow = false is the lua spelling of movetoworkspacesilent ("silent" is not a real key)
+        add(mod .. " + SHIFT + " .. key,   hl.dsp.window.move({ workspace = i, follow = false }))
     end
 
     add(mod .. " + TAB",       hl.dsp.focus({ workspace = "previous" }))
