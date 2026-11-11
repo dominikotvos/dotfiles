@@ -1,11 +1,23 @@
 # Windows 10 bootstrap for the Hyprland/kitty/tmux/nvim/omp setup.
+# Full ordered checklist (before and after this script): windows/README.md.
 # Run from a normal (non-admin) PowerShell, with the dotfiles repo cloned to $HOME\dotfiles:
 #   Set-ExecutionPolicy -Scope CurrentUser RemoteSigned -Force
 #   & $HOME\dotfiles\windows\bootstrap.ps1
-# Symlinks need Developer Mode (Settings > Update & Security > For developers) or an admin shell.
 
 $ErrorActionPreference = 'Stop'
 $dot = Join-Path $HOME 'dotfiles'
+
+# Non-admin symlinks only work with Developer Mode on.
+$devMode = Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock' -ErrorAction SilentlyContinue
+if ($devMode.AllowDevelopmentWithoutDevLicense -ne 1) {
+  throw 'Enable Developer Mode first: Settings > Update & Security > For developers.'
+}
+
+# Reload PATH so tools installed earlier in this run are visible to later steps.
+function Update-Path {
+  $env:Path = [Environment]::GetEnvironmentVariable('Path', 'Machine') + ';' +
+              [Environment]::GetEnvironmentVariable('Path', 'User')
+}
 
 # --- GUI apps + toolchains (winget) ---
 $winget = @(
@@ -20,6 +32,7 @@ $winget = @(
   'Rustlang.Rustup'              # UNL.nvim scanner: cargo build
   'Microsoft.PowerToys'          # Awake (caffeine), keyboard remaps
   'can1357.oh-my-pi'             # omp
+  'EpicGames.EpicGamesLauncher'  # install UE 5.8 from here (nvim expects C:/Program Files/Epic Games/UE_5.8)
 )
 foreach ($id in $winget) {
   winget install --id $id --exact --silent --accept-package-agreements --accept-source-agreements
@@ -32,6 +45,7 @@ winget install --id Microsoft.VisualStudio.2022.BuildTools --exact --silent --ov
   '--wait --quiet --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended'
 
 # --- CLI tools from .zshrc / tmux workflow (scoop, user-level, on PATH) ---
+Update-Path
 if (-not (Get-Command scoop -ErrorAction SilentlyContinue)) {
   Invoke-RestMethod get.scoop.sh | Invoke-Expression
 }
@@ -50,6 +64,7 @@ function Link($target, $source) {
 Link "$HOME\.glzr\glazewm\config.yaml"          "$dot\windows\glazewm\config.yaml"
 Link "$HOME\.config\wezterm\wezterm.lua"         "$dot\windows\wezterm\wezterm.lua"
 Link "$env:LOCALAPPDATA\nvim"                    "$dot\.config\nvim"
+Link "$HOME\.zshrc"                              "$dot\.zshrc"   # MSYS2 home = $HOME once db_home: windows is set
 Link "$HOME\.glzr\zebar\gintama"                "$dot\windows\zebar\gintama"
 Link "$HOME\.omp\agent\config.yml"               "$dot\windows\omp\config.yml"
 
@@ -57,12 +72,28 @@ Link "$HOME\.omp\agent\config.yml"               "$dot\windows\omp\config.yml"
 # Written, not linked: Zebar's settings UI rewrites this file.
 $zebarSettings = "$HOME\.glzr\zebar\settings.json"
 if (Test-Path $zebarSettings) { Copy-Item $zebarSettings "$zebarSettings.bak-$(Get-Date -Format yyyyMMddHHmmss)" }
-@'
+$json = @'
 {
   "$schema": "https://github.com/glzr-io/zebar/raw/v3.0.0/resources/settings-schema.json",
   "startupConfigs": [{ "pack": "gintama", "widget": "bar", "preset": "default" }]
 }
-'@ | Set-Content -Encoding utf8 $zebarSettings
+'@
+# No BOM: Windows PowerShell 5.1's `Set-Content -Encoding utf8` adds one, which JSON parsers reject.
+[IO.File]::WriteAllText($zebarSettings, $json, (New-Object Text.UTF8Encoding $false))
+
+# --- GlazeWM at login (it starts Zebar itself via startup_commands) ---
+Update-Path
+$glaze = (Get-Command glazewm -ErrorAction SilentlyContinue).Source
+if (-not $glaze) { $glaze = "$env:ProgramFiles\glzr.io\GlazeWM\glazewm.exe" }
+if (Test-Path $glaze) {
+  $lnk = (New-Object -ComObject WScript.Shell).CreateShortcut(
+    "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\GlazeWM.lnk")
+  $lnk.TargetPath = $glaze
+  $lnk.Save()
+  Write-Host "GlazeWM autostart -> $glaze"
+} else {
+  Write-Warning 'glazewm.exe not found; add it to shell:startup by hand.'
+}
 Link "$HOME\.omp\agent\AGENTS.md"                "$dot\windows\omp\AGENTS.md"
 
 # --- Windows OpenSSH agent (replaces `eval $(ssh-agent)` in .zshrc) ---
@@ -71,20 +102,4 @@ Link "$HOME\.omp\agent\AGENTS.md"                "$dot\windows\omp\AGENTS.md"
 # then, as yourself: ssh-add $HOME\.ssh\github; ssh-add $HOME\.ssh\gitlab
 git config --global core.sshCommand 'C:/Windows/System32/OpenSSH/ssh.exe'
 
-Write-Host @'
-
-Manual steps left:
- 1. MSYS2: in C:\msys64\etc\nsswitch.conf set `db_home: windows` so ~ is C:\Users\<you>
-    (same home as wezterm/omp/nvim). Then in the UCRT64 shell:
-      pacman -S zsh git
-      sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-    and clone fzf-tab, zsh-autosuggestions, zsh-syntax-highlighting, zsh-fzf-history-search
-    into $ZSH_CUSTOM/plugins.
- 2. Flow Launcher: Settings > Hotkey > Alt+D.
- 3. Settings > Ease of Access > Keyboard: "Use the Print Screen button to open screen snipping".
- 4. Mouse: Control Panel > Mouse > Pointer Options: untick "Enhance pointer precision" (= flat accel).
- 5. System > About > Advanced system settings > Performance: "Adjust for best performance"
-    (= animations off), then re-tick "Smooth edges of screen fonts".
- 6. Taskbar: auto-hide (Zebar replaces it).
- 7. omp: run `omp` once and log in again; auth lives in agent.db, which is not copied.
-'@
+Write-Host "`nDone. Continue with 'After bootstrap' in $dot\windows\README.md"

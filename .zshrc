@@ -154,6 +154,13 @@ if [ -f '/home/sleuth/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/sleu
 fpath+=~/.zfunc; autoload -Uz compinit; compinit
 
 # Git ssh
-eval $(ssh-agent -s)
-ssh-add ~/.ssh/gitlab
-ssh-add ~/.ssh/github
+if [[ $OSTYPE == msys* || $OSTYPE == cygwin* ]]; then
+	# Windows (MSYS2 zsh): keys live in the Windows OpenSSH agent service, which
+	# MSYS2's own ssh can't reach, so use the Windows ssh (git does via core.sshCommand).
+	alias ssh=/c/Windows/System32/OpenSSH/ssh.exe
+	alias ssh-add=/c/Windows/System32/OpenSSH/ssh-add.exe
+else
+	eval $(ssh-agent -s)
+	ssh-add ~/.ssh/gitlab
+	ssh-add ~/.ssh/github
+fi

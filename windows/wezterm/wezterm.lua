@@ -62,7 +62,9 @@ config.hide_tab_bar_if_only_one_tab = false
 ---------------------------------------------------------------------------
 if is_windows then
   config.default_prog = {
-    'C:/msys64/msys2_shell.cmd', '-defterm', '-here', '-no-start', '-ucrt64', '-shell', 'zsh',
+    -- -use-full-path: inherit the Windows PATH (scoop shims, nvim, omp, git).
+    -- MSYS2's default "minimal" PATH would hide all of them from zsh.
+    'C:/msys64/msys2_shell.cmd', '-defterm', '-here', '-no-start', '-ucrt64', '-use-full-path', '-shell', 'zsh',
   }
   config.launch_menu = {
     { label = 'zsh (MSYS2)', args = config.default_prog },
