@@ -84,21 +84,24 @@ return {
         -- Wayland fix: UnrealEditor launched via :UDEV run inherits nvim's env
         -- (UBT jobstart has no env hook). Force XWayland + neutralize HiDPI
         -- scale vars so the editor isn't bugged on Wayland compositors.
-        for k, v in pairs({
-            SDL_VIDEODRIVER             = "x11",
-            QT_SCALE_FACTOR             = "unset",
-            QT_AUTO_SCREEN_SCALE_FACTOR = "unset",
-            GDK_SCALE                   = "unset",
-            GDK_DPI_SCALE               = "unset",
-        }) do
-            vim.env[k] = v
+        local is_windows = vim.fn.has("win32") == 1
+        if not is_windows then
+            for k, v in pairs({
+                SDL_VIDEODRIVER             = "x11",
+                QT_SCALE_FACTOR             = "unset",
+                QT_AUTO_SCREEN_SCALE_FACTOR = "unset",
+                GDK_SCALE                   = "unset",
+                GDK_DPI_SCALE               = "unset",
+            }) do
+                vim.env[k] = v
+            end
         end
 
         require("UnrealDev").setup({
             -- Forwarded to UBT: default build/run target when no preset given
-            -- and no bang picker used. Linux editor, Development config.
-            engine_path = "/home/sleuth/UnrealEngine",
-            preset_target = "LullabyEditor Linux Development",
+            -- and no bang picker used. Editor, Development config, per OS.
+            engine_path = is_windows and "C:/Program Files/Epic Games/UE_5.8" or "/home/sleuth/UnrealEngine",
+            preset_target = is_windows and "LullabyEditor Win64 Development" or "LullabyEditor Linux Development",
             -- true = last bang-picked preset wins for plain commands this session;
             -- falls back to preset_target on a fresh session.
             use_last_preset_as_default = true,

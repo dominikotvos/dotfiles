@@ -39,15 +39,14 @@ return {
         require("fidget").setup({})
         require("mason").setup()
 
+        -- Windows lacks the Python (pylsp/ruff) and Go (gopls) toolchains; Mason would warn every start.
+        local ensure_installed = { "lua_ls", "gopls", "ts_ls", "pylsp", "ruff", "clangd" }
+        if vim.fn.has("win32") == 1 then
+            ensure_installed = { "lua_ls", "clangd" }
+        end
+
         require("mason-lspconfig").setup({
-            ensure_installed = {
-                "lua_ls",
-                "gopls",
-                "ts_ls",
-                "pylsp",
-                "ruff",
-                "clangd",
-            },
+            ensure_installed = ensure_installed,
             handlers = {
                 -- default handler: register/configure the server and then enable it
                 function(server_name)
@@ -130,7 +129,10 @@ return {
                             "--clang-tidy",
                             "--completion-style=detailed",
                             "--header-insertion=iwyu",
-                            "--query-driver=/usr/bin/clang++,/usr/bin/clang,/usr/bin/g++,/home/sleuth/UnrealEngine/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/**/bin/clang++",
+                            -- Lets clangd read system includes from the compiler in compile_commands.json.
+                            vim.fn.has("win32") == 1
+                                and "--query-driver=C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/Llvm/x64/bin/clang-cl.exe"
+                                or "--query-driver=/usr/bin/clang++,/usr/bin/clang,/usr/bin/g++,/home/sleuth/UnrealEngine/Engine/Extras/ThirdPartyNotUE/SDKs/HostLinux/Linux_x64/**/bin/clang++",
                         },
                     })
                     vim.lsp.enable("clangd")

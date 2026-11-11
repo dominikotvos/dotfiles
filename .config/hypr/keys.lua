@@ -24,6 +24,7 @@ local function build(mod)
     add(mod .. " + P",       hl.dsp.window.pseudo())
     add(mod .. " + F",       hl.dsp.window.fullscreen())
     add(mod .. " + T",       hl.dsp.layout("togglesplit")) -- dwindle only
+    add(mod .. " + R",       hl.dsp.submap("resize"))
 
     -- Noctalia shell. Panel ids are verified against `noctalia msg panel-open`.
     add(mod .. " + C",       hl.dsp.exec_cmd("noctalia msg panel-toggle control-center"))
@@ -83,6 +84,41 @@ hl.bind("XF86AudioNext",  hl.dsp.exec_cmd("playerctl next"),       { locked = tr
 hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPlay",  hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),   { locked = true })
+
+-- i3-style resize mode, entered with mod + R from build() above.
+-- h/l shrink/grow width, k/j shrink/grow height; Return/Escape leave.
+-- Modifier-less, so it is not part of the ALT/SUPER switching.
+local STEP = 10
+local RESIZE = {
+    h = { -STEP, 0 }, LEFT  = { -STEP, 0 },
+    l = {  STEP, 0 }, RIGHT = {  STEP, 0 },
+    k = { 0, -STEP }, UP    = { 0, -STEP },
+    j = { 0,  STEP }, DOWN  = { 0,  STEP },
+}
+
+hl.define_submap("resize", function()
+    for key, d in pairs(RESIZE) do
+        hl.bind(key, hl.dsp.window.resize({ x = d[1], y = d[2], relative = true }), { repeating = true })
+    end
+    hl.bind("RETURN", hl.dsp.submap("reset"))
+    hl.bind("ESCAPE", hl.dsp.submap("reset"))
+end)
+
+-- Submap feedback, like i3: active border turns red and the noctalia bar shows
+-- the submap name (sleuth/submap plugin, hidden in the default submap).
+-- Colors come from the noctalia palette so a theme change keeps them in step.
+local palette = require("noctalia").colors
+
+hl.on("keybinds.submap", function()
+    local name = hl.get_current_submap() or ""
+    local active = name ~= "" and name ~= "default"
+    hl.config({
+        general = {
+            col = { active_border = active and palette.error or palette.primary },
+        },
+    })
+    hl.exec_cmd("noctalia msg plugin sleuth/submap:submap all set " .. (active and name or "default"))
+end)
 
 -----------------------------------------------------------
 ---- MODIFIER SWITCHING (Lost Ark grabs ALT, so use SUPER)

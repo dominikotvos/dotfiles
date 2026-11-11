@@ -1,7 +1,7 @@
 [bar.default]
 border = "outline"
 border_width = 1
-center = [ "clock_hu", "clock_sep", "clock_kr" ]
+center = [ "clock_hu", "clock_sep", "clock_kr", "clock_sep", "clock_date" ]
 concave_edge_corners = true
 end = [
     "media",
@@ -24,7 +24,7 @@ hover_highlight = true
 margin_ends = 0
 padding = 8
 radius = 0
-start = [ "gin", "workspaces" ]
+start = [ "gin", "workspaces", "sleuth/submap:submap" ]
 thickness = 30
 widget_spacing = 8
 
@@ -138,7 +138,7 @@ show_actions = true
 show_app_name = true
 
 [plugins]
-enabled = [ "sleuth/fcitx5" ]
+enabled = [ "sleuth/fcitx5", "sleuth/submap" ]
 
 [shell]
 avatar_path = "/home/sleuth/Pictures/Gintoki.jpg"
@@ -166,6 +166,12 @@ path = "/home/sleuth/Pictures/wallpapers/gintoki-wave.jpg"
 [wallpaper.monitors.HDMI-A-1]
 path = "/home/sleuth/Pictures/wallpapers/gintoki-wave.jpg"
 
+[widget.clock_date]
+format = "{:%a %d %b}"
+timezone = "Europe/Budapest"
+tooltip_format = "Budapest  {:%A, %d %B %Y}"
+type = "clock"
+
 [widget.clock_hu]
 format = "HU {:%H:%M}"
 timezone = "Europe/Budapest"
@@ -173,7 +179,7 @@ tooltip_format = "Budapest  {:%A, %d %B %Y  %H:%M}"
 type = "clock"
 
 [widget.clock_kr]
-format = "KR {:%H:%M}  ·  {:%a %d %b}"
+format = "KR {:%H:%M}"
 timezone = "Asia/Seoul"
 tooltip_format = "Seoul  {:%A, %d %B %Y  %H:%M}"
 type = "clock"

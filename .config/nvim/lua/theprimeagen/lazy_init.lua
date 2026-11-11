@@ -13,7 +13,9 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
     spec = "theprimeagen.lazy",
-    change_detection = { notify = false }
+    change_detection = { notify = false },
+    -- No plugin needs luarocks; on Windows the hererocks bootstrap (Python build) is painful.
+    rocks = { enabled = vim.fn.has("win32") == 0 },
 })
 --[[
 require("lazy").setup({

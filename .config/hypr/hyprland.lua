@@ -1,4 +1,4 @@
--- Hyprland Lua config (migrated from hyprland.conf, hyprlang deprecated since 0.55)
+-- Hyprland Lua config (migrated from hyprland.conf, hyprlang deprecated since 1.55)
 -- https://wiki.hypr.land/Configuring/Start/
 --
 -- This is the live config: `hyprctl systeminfo` reports `configProvider: lua`.
@@ -15,7 +15,7 @@
 
 -- See https://wiki.hypr.land/Configuring/Basics/Monitors/
 hl.monitor({ output = "DP-1", mode = "1920x1080@144", position = "0x0", scale = 1, vrr = false })
-hl.monitor({ output = "HDMI-A-1", mode = "1920x1080@144", position = "1920x0", scale = 1, vrr = false })
+hl.monitor({ output = "HDMI-A-1", mode = "2560x1080@60", position = "1920x0", scale = 1, vrr = false })
 
 -- Boot-time ws3 render workaround for HDMI-A-1. See the file for the full writeup.
 require("monitors")
@@ -42,7 +42,7 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("fcitx5")
     hl.exec_cmd("noctalia --daemon")
     hl.exec_cmd("vesktop")
-    hl.exec_cmd("blueman-applet")
+    -- hl.exec_cmd("blueman-applet")
     hl.exec_cmd("dbus-update-activation-environment --systemd --all")
     -- Activate graphical-session.target on plain Hyprland so xdg-desktop-portal
     -- (Requisite=graphical-session.target) starts -> screenshare works
@@ -243,6 +243,16 @@ hl.window_rule({
     name      = "vesktop-ws",
     match     = { class = "^(vesktop)$" },
     workspace = "3 silent",
+})
+
+-- Ignore client maximize requests (stock-config rule, lost in the Lua migration).
+-- kitty persists "window-state": "maximized" in ~/.cache/kitty/main.json and calls
+-- set_maximized() on every new window, which covered the tiled neighbours until a
+-- fullscreen toggle. Only client requests are dropped; mod + F still works.
+hl.window_rule({
+    name           = "suppress-maximize-events",
+    match          = { class = ".*" },
+    suppress_event = "maximize",
 })
 
 -- Games opt out of every desktop effect. Blur and animations are on globally for

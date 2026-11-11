@@ -1,0 +1,19 @@
+# Hyprland submap indicator for the noctalia bar, the i3bar "binding mode" box.
+#
+# Push-based: keys.lua sends every submap change over IPC, so there is no
+# polling. Hidden while in the default submap.
+
+id = "sleuth/submap"
+name = "Submap"
+version = "1.0.0"
+plugin_api = 9
+author = "sleuth"
+license = "MIT"
+dependencies = []
+tags = ["hyprland"]
+icon = "keyboard"
+description = "Shows the active Hyprland submap (e.g. resize) in the bar; hidden otherwise."
+
+[[widget]]
+id = "submap"
+entry = "submap.luau"
