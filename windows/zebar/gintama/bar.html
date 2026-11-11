@@ -1,0 +1,279 @@
+<!doctype html>
+<!--
+  Port of the noctalia bar from .config/noctalia/config.toml [bar.default]:
+    start:  gin, workspaces, sleuth/submap
+    center: clock_hu · clock_kr · clock_date
+    end:    media, tray, network, volume, battery, keyboard layout (fcitx5)
+  Dropped (no Windows API in Zebar): notifications, clipboard, bluetooth,
+  brightness, control-center, session. Use Win+A, Win+V, Win+X instead.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="./styles.css" />
+    <!-- Lets React run buildless via the "text/babel" script below (same as Zebar's starter). -->
+    <script
+      src="https://unpkg.com/@babel/standalone@7.25.6/babel.min.js"
+      integrity="sha256-aS0B0wnsaDByLfE16h4MDCP1fQFccysd1YWOcV+gbBo="
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel" data-type="module">
+      import React, { useState, useEffect } from 'https://esm.sh/react@18.3.1';
+      import { createRoot } from 'https://esm.sh/react-dom@18.3.1/client';
+      import * as zebar from 'https://esm.sh/zebar@3';
+
+      // Luxon formats. "|" splits the bar text from the tooltip text.
+      const providers = zebar.createProviderGroup({
+        glazewm: { type: 'glazewm' },
+        hu: {
+          type: 'date',
+          timezone: 'Europe/Budapest',
+          locale: 'en',
+          formatting: "HH:mm|EEE dd LLL|'Budapest'  cccc, dd LLLL yyyy  HH:mm",
+        },
+        kr: {
+          type: 'date',
+          timezone: 'Asia/Seoul',
+          locale: 'en',
+          formatting: "HH:mm|'Seoul'  cccc, dd LLLL yyyy  HH:mm",
+        },
+        media: { type: 'media' },
+        systray: { type: 'systray' },
+        network: { type: 'network' },
+        audio: { type: 'audio' },
+        battery: { type: 'battery' },
+        keyboard: { type: 'keyboard' },
+      });
+
+      createRoot(document.getElementById('root')).render(<Bar />);
+
+      function Bar() {
+        const [o, setO] = useState(providers.outputMap);
+        useEffect(() => {
+          providers.onOutput(() => setO(providers.outputMap));
+        }, []);
+
+        return (
+          <div className="bar">
+            <div className="start">
+              <span className="gin">銀</span>
+              <Workspaces wm={o.glazewm} />
+              <Modes wm={o.glazewm} />
+            </div>
+
+            <div className="center">
+              <Clocks hu={o.hu} kr={o.kr} />
+            </div>
+
+            <div className="end">
+              <Media media={o.media} />
+              <Tray tray={o.systray} />
+              <Network net={o.network} />
+              <Volume audio={o.audio} />
+              <Battery battery={o.battery} />
+              <Keyboard kb={o.keyboard} />
+            </div>
+          </div>
+        );
+      }
+
+      // focused_output_only = true -> only this monitor's workspaces.
+      function Workspaces({ wm }) {
+        if (!wm) return null;
+        return (
+          <div className="workspaces">
+            {wm.currentWorkspaces.map(ws => {
+              const cls = [
+                'workspace',
+                ws.hasFocus || ws.isDisplayed ? 'focused' : '',
+                ws.children?.length ? 'occupied' : '',
+              ].join(' ');
+              return (
+                <button
+                  key={ws.name}
+                  className={cls}
+                  title={`workspace ${ws.name}`}
+                  onClick={() => wm.runCommand(`focus --workspace ${ws.name}`)}
+                >
+                  {ws.displayName ?? ws.name}
+                </button>
+              );
+            })}
+          </div>
+        );
+      }
+
+      // Hyprland submap indicator -> GlazeWM binding modes, plus the Lost Ark pause.
+      function Modes({ wm }) {
+        if (!wm) return null;
+        return (
+          <>
+            {wm.bindingModes.map(mode => (
+              <button
+                key={mode.name}
+                className="mode"
+                title="click to leave"
+                onClick={() => wm.runCommand(`wm-disable-binding-mode --name ${mode.name}`)}
+              >
+                {mode.displayName ?? mode.name}
+              </button>
+            ))}
+            {wm.isPaused && (
+              <button
+                className="mode paused"
+                title="GlazeWM keybinds paused (alt+shift+p)"
+                onClick={() => wm.runCommand('wm-toggle-pause')}
+              >
+                paused
+              </button>
+            )}
+          </>
+        );
+      }
+
+      function Clocks({ hu, kr }) {
+        if (!hu || !kr) return null;
+        const [huTime, date, huTip] = hu.formatted.split('|');
+        const [krTime, krTip] = kr.formatted.split('|');
+        return (
+          <>
+            <span className="chip" title={huTip}>
+              <span className="clock-label">HU</span>
+              {huTime}
+            </span>
+            <span className="sep">·</span>
+            <span className="chip" title={krTip}>
+              <span className="clock-label">KR</span>
+              {krTime}
+            </span>
+            <span className="sep">·</span>
+            <span className="chip" title={huTip}>{date}</span>
+          </>
+        );
+      }
+
+      function Media({ media }) {
+        const s = media?.currentSession;
+        if (!s || !s.title) return null;
+        const text = s.artist ? `${s.title} — ${s.artist}` : s.title;
+        return (
+          <button
+            className="chip media"
+            title={text}
+            onClick={() => media.togglePlayPause()}
+            onWheel={e => (e.deltaY > 0 ? media.next() : media.previous())}
+          >
+            <i className={`nf ${s.isPlaying ? 'nf-md-pause' : 'nf-md-play'}`}></i>
+            <span className="title">{text}</span>
+          </button>
+        );
+      }
+
+      function Tray({ tray }) {
+        if (!tray?.icons?.length) return null;
+        return (
+          <div className="tray">
+            {tray.icons.map(icon => (
+              <button
+                key={icon.id}
+                title={icon.tooltip}
+                onClick={() => tray.onLeftClick(icon.id)}
+                onContextMenu={e => {
+                  e.preventDefault();
+                  tray.onRightClick(icon.id);
+                }}
+                onAuxClick={e => e.button === 1 && tray.onMiddleClick(icon.id)}
+              >
+                <img src={icon.iconUrl} alt="" />
+              </button>
+            ))}
+          </div>
+        );
+      }
+
+      function Network({ net }) {
+        if (!net) return null;
+        const iface = net.defaultInterface;
+        const gw = net.defaultGateway;
+        let icon = 'nf-md-wifi_strength_off_outline';
+        if (iface?.type === 'ethernet') icon = 'nf-md-ethernet_cable';
+        else if (iface?.type === 'proprietary_virtual') icon = 'nf-md-shield_lock_outline';
+        else if (iface?.type === 'wifi') {
+          const s = gw?.signalStrength ?? 0;
+          icon =
+            s >= 80 ? 'nf-md-wifi_strength_4'
+            : s >= 65 ? 'nf-md-wifi_strength_3'
+            : s >= 40 ? 'nf-md-wifi_strength_2'
+            : s >= 25 ? 'nf-md-wifi_strength_1'
+            : 'nf-md-wifi_strength_outline';
+        }
+        return (
+          <span className={`chip ${iface ? '' : 'muted'}`} title={gw?.ssid ?? iface?.friendlyName ?? 'offline'}>
+            <i className={`nf ${icon}`}></i>
+          </span>
+        );
+      }
+
+      // Same step as the volume keys in keys.lua (noctalia msg volume-up 5).
+      function Volume({ audio }) {
+        const dev = audio?.defaultPlaybackDevice;
+        if (!dev) return null;
+        const vol = Math.round(dev.volume);
+        const icon = dev.isMuted || vol === 0
+          ? 'nf-md-volume_off'
+          : vol < 35 ? 'nf-md-volume_low'
+          : vol < 70 ? 'nf-md-volume_medium'
+          : 'nf-md-volume_high';
+        return (
+          <button
+            className={`chip ${dev.isMuted ? 'muted' : ''}`}
+            title={dev.name}
+            onClick={() => audio.setMute(!dev.isMuted)}
+            onWheel={e => {
+              const next = Math.min(100, Math.max(0, vol + (e.deltaY < 0 ? 5 : -5)));
+              audio.setVolume(next);
+            }}
+          >
+            <i className={`nf ${icon}`}></i>
+            {vol}%
+          </button>
+        );
+      }
+
+      // Desktop PCs report no battery; the widget then stays hidden like noctalia's.
+      function Battery({ battery }) {
+        if (!battery || battery.chargePercent == null) return null;
+        const p = Math.round(battery.chargePercent);
+        const icon =
+          p > 90 ? 'nf-fa-battery_4'
+          : p > 70 ? 'nf-fa-battery_3'
+          : p > 40 ? 'nf-fa-battery_2'
+          : p > 20 ? 'nf-fa-battery_1'
+          : 'nf-fa-battery_0';
+        return (
+          <span className={`chip ${p <= 20 && !battery.isCharging ? 'warn' : ''}`}>
+            {battery.isCharging && <i className="nf nf-md-power_plug"></i>}
+            <i className={`nf ${icon}`}></i>
+            {p}%
+          </span>
+        );
+      }
+
+      // sleuth/fcitx5 widget -> active Windows input language (Win+Space switches).
+      function Keyboard({ kb }) {
+        if (!kb?.layout) return null;
+        return (
+          <span className="chip" title="input language (Win+Space)">
+            <i className="nf nf-md-keyboard"></i>
+            {kb.layout}
+          </span>
+        );
+      }
+    </script>
+  </body>
+</html>

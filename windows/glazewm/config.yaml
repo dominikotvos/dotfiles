@@ -1,0 +1,235 @@
+# GlazeWM port of ~/.config/hypr (hyprland.lua + keys.lua).
+# Lives at %USERPROFILE%\.glzr\glazewm\config.yaml (bootstrap.ps1 links it).
+#
+# Not portable, by design or by Windows 10:
+# - window_effects border/corner_style are Windows 11 only: on Win10 there is no
+#   focus border and no red "submap" border. Zebar shows the binding mode instead.
+# - No scratchpad (special:magic) and no pseudo-tile in GlazeWM.
+# - Noctalia panels (control centre, clipboard, DND, caffeine, session) have no
+#   CLI equivalent; use Win+A, Win+V, Focus Assist, PowerToys Awake, Win+X.
+# - Lock stays Win+L (Windows owns it).
+
+general:
+  startup_commands: ['shell-exec zebar']
+  shutdown_commands: ['shell-exec taskkill /IM zebar.exe /F']
+  config_reload_commands: []
+  # hyprland input.follow_mouse = 1
+  focus_follows_cursor: true
+  toggle_workspace_on_refocus: false
+  cursor_jump:
+    enabled: true
+    trigger: 'monitor_focus'
+  hide_method: 'cloak'
+  show_all_in_taskbar: false
+
+gaps:
+  scale_with_dpi: true
+  # hyprland gaps_in = 3, gaps_out = 6. Top = 30px Zebar bar
+  # (windows/zebar/gintama, not docked) + 6px.
+  inner_gap: '3px'
+  outer_gap:
+    top: '36px'
+    right: '6px'
+    bottom: '6px'
+    left: '6px'
+
+window_effects:
+  # Windows 11 only. Harmless on Win10, kept so an upgrade just works.
+  focused_window:
+    border:
+      enabled: true
+      color: '#7b9ade'
+    hide_title_bar:
+      enabled: false
+    corner_style:
+      enabled: true
+      style: 'square'
+    transparency:
+      enabled: false
+      opacity: '90%'
+  other_windows:
+    border:
+      enabled: true
+      color: '#3c434d'
+    hide_title_bar:
+      enabled: false
+    corner_style:
+      enabled: true
+      style: 'square'
+    transparency:
+      enabled: false
+      opacity: '90%'
+
+window_behavior:
+  initial_state: 'tiling'
+  state_defaults:
+    floating:
+      centered: true
+      shown_on_top: false
+    fullscreen:
+      maximized: false
+      shown_on_top: false
+
+# Kanji labels like the noctalia bar (Zebar reads display_name).
+# bind_to_monitor is 0-based from the left: 0 = DP-1 (x=0), 1 = HDMI-A-1 (x=1920).
+workspaces:
+  - name: '1'
+    display_name: '一'
+    bind_to_monitor: 0
+  - name: '2'
+    display_name: '二'
+    bind_to_monitor: 0
+  - name: '3'
+    display_name: '三'
+    bind_to_monitor: 1
+  - name: '4'
+    display_name: '四'
+    bind_to_monitor: 0
+  - name: '5'
+    display_name: '五'
+  - name: '6'
+    display_name: '六'
+  - name: '7'
+    display_name: '七'
+  - name: '8'
+    display_name: '八'
+  - name: '9'
+    display_name: '九'
+  - name: '10'
+    display_name: '十'
+
+window_rules:
+  - commands: ['ignore']
+    match:
+      - window_process: { equals: 'zebar' }
+      - window_process: { equals: 'Flow.Launcher' }
+      - window_process: { equals: 'PowerToys' }
+      - window_process: { equals: 'Lively' }
+      - window_title: { regex: '[Pp]icture.in.[Pp]icture' }
+        window_class: { regex: 'Chrome_WidgetWin_1|MozillaDialogClass' }
+
+  # hyprland: vesktop -> workspace 3 silent
+  - commands: ['move --workspace 3']
+    match:
+      - window_process: { regex: '(?i)^vesktop$' }
+
+  # hyprland: Godot dialogs float centred on workspace 4
+  - commands: ['set-floating --centered', 'move --workspace 4']
+    match:
+      - window_process: { regex: '(?i)^godot' }
+        window_title: { regex: '^(Project Settings|Editor Settings|Create New Node)' }
+
+  # Games: leave them completely alone (Windows equivalent of the perf rules).
+  - commands: ['ignore']
+    match:
+      - window_process: { regex: '(?i)^(LOSTARK|cs2|sekiro)$' }
+
+binding_modes:
+  # hyprland submap "resize": h/l width, k/j height, Return/Escape leave.
+  - name: 'resize'
+    keybindings:
+      - commands: ['resize --width -2%']
+        bindings: ['h', 'left']
+      - commands: ['resize --width +2%']
+        bindings: ['l', 'right']
+      - commands: ['resize --height -2%']
+        bindings: ['k', 'up']
+      - commands: ['resize --height +2%']
+        bindings: ['j', 'down']
+      - commands: ['wm-disable-binding-mode --name resize']
+        bindings: ['escape', 'enter']
+
+keybindings:
+  # --- programs (programs.lua) ---
+  - commands: ['shell-exec wezterm-gui']
+    bindings: ['alt+enter']
+  - commands: ['shell-exec explorer']
+    bindings: ['alt+e']
+  # alt+d launcher: set Flow Launcher's own hotkey to Alt+D in its settings.
+
+  # --- windows ---
+  - commands: ['close']
+    bindings: ['alt+shift+q']
+  - commands: ['toggle-floating --centered']
+    bindings: ['alt+v']
+  - commands: ['toggle-fullscreen']
+    bindings: ['alt+f']
+  # dwindle togglesplit
+  - commands: ['toggle-tiling-direction']
+    bindings: ['alt+t']
+  - commands: ['wm-enable-binding-mode --name resize']
+    bindings: ['alt+r']
+
+  # --- focus / move, vim keys ---
+  - commands: ['focus --direction left']
+    bindings: ['alt+h']
+  - commands: ['focus --direction right']
+    bindings: ['alt+l']
+  - commands: ['focus --direction up']
+    bindings: ['alt+k']
+  - commands: ['focus --direction down']
+    bindings: ['alt+j']
+  - commands: ['move --direction left']
+    bindings: ['alt+shift+h']
+  - commands: ['move --direction right']
+    bindings: ['alt+shift+l']
+  - commands: ['move --direction up']
+    bindings: ['alt+shift+k']
+  - commands: ['move --direction down']
+    bindings: ['alt+shift+j']
+
+  # --- workspaces 1-10 (0 = 10). Shift moves without following, like follow = false ---
+  - commands: ['focus --workspace 1']
+    bindings: ['alt+1']
+  - commands: ['focus --workspace 2']
+    bindings: ['alt+2']
+  - commands: ['focus --workspace 3']
+    bindings: ['alt+3']
+  - commands: ['focus --workspace 4']
+    bindings: ['alt+4']
+  - commands: ['focus --workspace 5']
+    bindings: ['alt+5']
+  - commands: ['focus --workspace 6']
+    bindings: ['alt+6']
+  - commands: ['focus --workspace 7']
+    bindings: ['alt+7']
+  - commands: ['focus --workspace 8']
+    bindings: ['alt+8']
+  - commands: ['focus --workspace 9']
+    bindings: ['alt+9']
+  - commands: ['focus --workspace 10']
+    bindings: ['alt+0']
+  - commands: ['move --workspace 1']
+    bindings: ['alt+shift+1']
+  - commands: ['move --workspace 2']
+    bindings: ['alt+shift+2']
+  - commands: ['move --workspace 3']
+    bindings: ['alt+shift+3']
+  - commands: ['move --workspace 4']
+    bindings: ['alt+shift+4']
+  - commands: ['move --workspace 5']
+    bindings: ['alt+shift+5']
+  - commands: ['move --workspace 6']
+    bindings: ['alt+shift+6']
+  - commands: ['move --workspace 7']
+    bindings: ['alt+shift+7']
+  - commands: ['move --workspace 8']
+    bindings: ['alt+shift+8']
+  - commands: ['move --workspace 9']
+    bindings: ['alt+shift+9']
+  - commands: ['move --workspace 10']
+    bindings: ['alt+shift+0']
+  # hyprland mod+TAB = previous workspace. Windows may still claim Alt+Tab;
+  # if it does, move this to alt+grave.
+  - commands: ['focus --recent-workspace']
+    bindings: ['alt+tab']
+
+  # --- WM ---
+  # Lost Ark grabs ALT: on Linux keys.lua swapped to SUPER. Here, pause all
+  # GlazeWM binds while in-game instead (Win+ combos are mostly owned by Windows).
+  - commands: ['wm-toggle-pause']
+    bindings: ['alt+shift+p']
+  - commands: ['wm-reload-config']
+    bindings: ['alt+shift+r']
+  - commands: ['wm-exit']
+    bindings: ['alt+m']
